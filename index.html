@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1a73e8">
-    <title>牛轉門：時空導航儀 (極簡版)</title>
+    <title>牛轉門：時空導航儀 (終極完全版)</title>
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuWIm+i9iee6gOaZgum6uuiwsOatueitpOakrCIsCiAgInNob3J0X25hbWUiIjogIuWIm+i9iee6gCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZjRmN2Y5IiwKICAidGhlbWVfY29sb3IiOiAiIzFhNzNlOCIKfQ==">
@@ -33,17 +33,64 @@
 
         .container { width: 100%; max-width: 1850px; margin: 0 auto; background: var(--card); padding: 15px; border-radius: 12px; box-shadow: 0 4px 30px rgba(0,0,0,0.1); }
         
-        header { text-align: center; margin-bottom: 20px; border-bottom: 3px solid var(--primary); padding-bottom: 10px; }
+        header { text-align: center; margin-bottom: 10px; border-bottom: 3px solid var(--primary); padding-bottom: 10px; }
         h1 { color: var(--primary); margin: 0; font-size: clamp(1.2rem, 4vw, 1.8rem); }
         .description { color: var(--text-sub); font-size: 0.85rem; margin-top: 5px; font-weight: 500; }
 
+        /* 技術核心導讀區 */
+        .core-concept-card {
+            background: #f8fbff;
+            border: 1px solid #d1e3ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0 20px 0;
+            box-shadow: inset 0 0 10px rgba(26, 115, 232, 0.05);
+        }
+        .core-concept-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1rem;
+            color: var(--primary);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        .concept-item {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #444;
+        }
+        .concept-item b { color: var(--text-main); border-bottom: 2px solid #ddd; }
+
+        /* 儀表板 */
         .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 20px; }
-        .meter-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 100px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .meter-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 120px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .meter-title { font-size: 0.8rem; font-weight: bold; color: var(--text-sub); margin-bottom: 6px; border-bottom: 1px solid #f1f3f4; padding-bottom: 4px; }
-        .meter-value { font-size: 1.3rem; font-weight: 900; line-height: 1.2; }
+        .meter-value { font-size: 1rem; font-weight: 900; line-height: 1.4; }
         .trend-up { color: var(--up-red); }
         .trend-down { color: var(--down-green); }
 
+        /* 極端行情警示區 */
+        .alert-panel { 
+            display: none; 
+            background: #fff; 
+            border: 2px solid #ff0000; 
+            border-radius: 10px; 
+            padding: 15px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.1);
+        }
+        .alert-title { font-weight: 900; font-size: 1.1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .alert-body { font-size: 0.9rem; line-height: 1.7; color: #333; }
+        .alert-status { display: inline-block; padding: 2px 8px; border-radius: 4px; background: #eee; font-weight: bold; margin-top: 5px; }
+
+        /* 配置面板 */
         .config-panel { background: #ffffff; padding: 12px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border); }
         .level-row { display: grid; grid-template-columns: 50px 1fr 1fr 1fr 1fr; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid #f1f3f4; }
         .level-label { font-weight: 800; font-size: 13px; color: var(--primary); text-align: center; }
@@ -55,79 +102,112 @@
 
         .input-item { display: flex; flex-direction: column; }
         .input-item label { font-size: 10px; color: #777; margin-bottom: 2px; text-align: center; font-weight: bold; }
-        select, input { padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-size: 12px; text-align: center; background: #fdfdfd; width: 100%; }
+        select, input { padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-size: 12px; text-align: center; background: #fdfdfd; width: 100%; cursor: pointer; }
 
         .actions { display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
-        .btn { padding: 12px 40px; border-radius: 25px; font-weight: bold; cursor: pointer; border: none; font-size: 15px; background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(26,115,232,0.3); }
+        .btn { padding: 12px 40px; border-radius: 25px; font-weight: bold; cursor: pointer; border: none; font-size: 14px; background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(26,115,232,0.3); transition: 0.2s; }
+        .btn:active { transform: scale(0.98); }
+        .btn-outline { background: white; color: var(--primary); border: 1px solid var(--primary); }
 
-        .result-box { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #fff; }
-        .scroll-area { max-height: 50vh; overflow: auto; position: relative; }
+        /* 表格區 */
+        .result-box { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #fff; margin-bottom: 20px; }
+        .scroll-area { max-height: 55vh; overflow: auto; position: relative; }
         table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 11px; min-width: 1400px; }
         thead th { position: sticky; top: 0; background: #f8f9fa; z-index: 20; padding: 12px 4px; border-bottom: 2px solid var(--primary); font-weight: 800; }
-        
         td:first-child, th:first-child { position: sticky; left: 0; background: #f8f9fa; z-index: 10; border-right: 2px solid var(--border); font-weight: 800; }
-        thead th:first-child { z-index: 25; }
-
+        
         td { padding: 10px 4px; text-align: center; border-bottom: 1px solid #f1f3f4; }
         
-        /* 1, 3, B 紅色 | 2, A, C 綠色 */
         .tag-cell { font-weight: 800; border-radius: 4px; padding: 4px 8px; display: inline-block; min-width: 28px; }
         .tag-up { color: #b71c1c; background: #ffebee; border: 1px solid #ef9a9a; } 
         .tag-down { color: #1b5e20; background: #e8f5e9; border: 1px solid #a5d6a7; }
 
-        .analysis-col { text-align: left; padding-left: 15px; min-width: 500px; line-height: 1.6; }
-
-        /* 能量等級 - 顏色定義 (紅漲綠跌) */
         .level-badge { font-weight: 900; padding: 2px 8px; border-radius: 4px; font-size: 11px; display: inline-block; margin-bottom: 3px; min-width: 90px; text-align: center; background: transparent; border: 1px solid currentColor; }
-        .p-1 { color: #ff0000; border-color: #ff0000; box-shadow: 0 0 3px rgba(255,0,0,0.2); } /* 極多：紅色 */
-        .p-2 { color: var(--up-red); } /* 強多：紅色 */
-        .p-3 { color: var(--primary); } /* 多空關鍵：藍色 */
-        .p-4 { color: var(--down-green); } /* 空誘多：綠色 */
-        .p-5 { color: var(--down-green); font-weight: 900; } /* 空頭：綠色 */
+        .p-1, .p-2 { color: var(--up-red); border-color: var(--up-red); } 
+        .p-3 { color: var(--primary); border-color: var(--primary); } 
+        .p-4, .p-5 { color: var(--down-green); border-color: var(--down-green); } 
 
-        /* 門控狀態標籤顏色 (紅色=發動/買點/誘多 | 綠色=撤退) */
         .gate-status-tag { font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; display: block; margin-bottom: 2px; text-transform: uppercase; border: 1px solid transparent; }
-        .gs-open { color: #ff0000; border-color: #ff0000; } /* 開門、測門：改為紅色 */
-        .gs-close { color: var(--down-green); border-color: var(--down-green); } /* 關門撤退：改為綠色 */
-        .gs-alert { color: #ff0000; border-color: #ff0000; } /* B反彈找空點：紅色 */
+        .gs-open { color: #ff0000; border-color: #ff0000; } 
+        .gs-close { color: var(--down-green); border-color: var(--down-green); } 
+        .gs-alert { color: #ff0000; border-color: #ff0000; } 
 
         .power-text { font-size: 10px; font-weight: bold; color: #777; margin-top: 4px; }
 
         .golden-puzzle { background: #fffdf0 !important; border-left: 6px solid var(--harmony-gold); } 
         .critical-kick { background: #fdf2ff !important; border-left: 5px solid var(--puzzle-purple); } 
 
-        .footer-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; padding: 20px; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; margin-top: 20px; }
-        .note-card h3 { color: var(--primary); font-size: 1rem; margin-top: 0; border-left: 4px solid var(--primary); padding-left: 10px; margin-bottom: 10px; }
-        .note-card p, .note-card li { font-size: 0.8rem; color: #444; line-height: 1.6; }
-        .note-card ul { padding-left: 15px; }
-        .note-card b { font-weight: 700; }
-        .note-card .red-text { color: #ff0000; }
-        .note-card .green-text { color: var(--down-green); }
-        .time-box { font-size: 9px; color: #999; display: block; margin-top: 2px; }
+        /* 底部心法說明與免責聲明 */
+        .footer-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; padding: 25px; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; margin-top: 20px; }
+        .note-card h3 { color: var(--primary); font-size: 1.1rem; margin-top: 0; border-left: 4px solid var(--primary); padding-left: 12px; margin-bottom: 12px; }
+        .note-card p, .note-card li { font-size: 0.85rem; color: #333; line-height: 1.7; }
+        .note-card ul { padding-left: 20px; }
+        .note-card b { font-weight: 800; }
+        .note-card .red-text { color: #ff0000; font-weight: bold; }
+        .note-card .green-text { color: var(--down-green); font-weight: bold; }
+        .note-card .blue-text { color: var(--primary); font-weight: bold; }
+
+        .app-attribution {
+            margin-top: 30px;
+            padding: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 0.8rem;
+            line-height: 1.8;
+        }
+        .skool-link {
+            color: var(--primary);
+            text-decoration: underline;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>牛轉門：波動・拼圖・時空導航儀</h1>
-        <div class="description">多週期共振拼圖 | 多雙波動結構 | 等待收盤確認</div>
-        <div class="description">程式撰寫：六甲豆子</div>
-        <div class="description">⚠️ 注意：個人交易心得整理，不構成投資建議；牛軍開門教學請自行到<a href="https://www.skool.com/niujun-open-the-door/about?ref=35d3add8e5c64bb58850c92c283d1ba4">SKOOL技術原創者</a>學習</div>
+        <h1>牛轉門：波動・時空導航儀</h1>
+        <div class="description">三層級聯動監測 | 門控轉態偵測 | 數據極簡版</div>
     </header>
+
+    <!-- 技術核心導讀區 -->
+    <div class="core-concept-card">
+        <h3>🔑 牛軍開門技術核心：7字訣・門・波動</h3>
+        <div class="concept-grid">
+            <div class="concept-item">
+                <b>🌊 識波動</b>：識別 123 (起、踩、升) 與 ABC (跌、抽、殺)。看清物理轉動，告別猜測。
+            </div>
+            <div class="concept-item">
+                <b>🔢 7字訣</b>：<b>「見紅之後等見黑，見黑之後等見紅」</b>。利用 MACD 堆測量波動強度。
+            </div>
+            <div class="concept-item">
+                <b>🚪 定門控</b>：門是物理邊界。<b>收盤價站上 W門 看多，跌破 M門 看空</b>。門下不做多，門上不做空。
+            </div>
+        </div>
+    </div>
+
+    <!-- 極端行情轉折警示區 -->
+    <div id="extremeAlert" class="alert-panel">
+        <div id="alertTitle" class="alert-title"></div>
+        <div id="alertBody" class="alert-body"></div>
+        <div id="alertCounter" class="alert-status"></div>
+    </div>
 
     <div class="dashboard">
         <div class="meter-card">
-            <div class="meter-title">當前多空評分 (Trend)</div>
-            <div id="trendMeter" class="meter-value">等待推演...</div>
+            <div class="meter-title">當前多空評分與警語</div>
+            <div id="trendMeter" class="meter-value" style="font-size:1rem;">等待推演...</div>
         </div>
         <div class="meter-card">
             <div class="meter-title">未來演化預言 (Scenario)</div>
-            <div id="scenarioText" style="font-size: 0.85rem; font-weight: 600;">請輸入參數後點擊推演</div>
+            <div id="scenarioText" style="font-size: 0.85rem; font-weight: 600; color: #444;">請輸入參數後點擊推演</div>
         </div>
         <div class="meter-card">
-            <div class="meter-title">絕對防守基準 (Risk Control)</div>
-            <div id="defensePoint" class="meter-value" style="color: var(--puzzle-purple); font-size: 1.1rem;">選擇層級後標示</div>
+            <div class="meter-title">絕對防禦聯動 (Risk Control)</div>
+            <div id="defensePoint" class="meter-value" style="color: #333; font-size: 0.85rem; text-align: left; padding-left: 10px;">
+                請選擇導航基準後執行
+            </div>
         </div>
     </div>
 
@@ -136,21 +216,24 @@
     </div>
 
     <div class="actions">
+        <button class="btn btn-outline" onclick="loadExample()">載入範例 (333A3CC1)</button>
         <div class="input-item" style="min-width:180px;">
-            <label>選擇導航基準層級</label>
+            <label>導航基準層級</label>
             <select id="refLevel">
                 <option value="0">月線基準</option><option value="1">週線基準</option><option value="2">日線基準</option>
                 <option value="3" selected>4H 基準</option>
-                <option value="4">60m 基準</option><option value="5">15m 基準</option><option value="6">5m 基準</option><option value="7">1m 基準</option>
+                <option value="4">60m 基準</option><option value="5">15m 基準</option>
+                <option value="6">5m 基準</option><option value="7">1m 基準</option>
             </select>
         </div>
         <div class="input-item" style="min-width:100px;">
             <label>預演步數</label>
             <input type="number" id="stepCount" value="60" min="1">
         </div>
-        <button class="btn" onclick="runSystemAnalysis()">開始多週期矩陣推演</button>
+        <button class="btn" onclick="runSystemAnalysis()">執行多週期矩陣推演</button>
     </div>
 
+    <!-- 表格區 -->
     <div class="result-box">
         <div class="scroll-area">
             <table id="mainTable">
@@ -159,7 +242,7 @@
                         <th style="width: 85px;">步數 / 窗口</th>
                         <th>月</th><th>週</th><th>日</th><th>4H</th><th>60m</th><th>15m</th><th>5m</th><th>1m</th>
                         <th style="width: 190px;">能量・狀態 / 門控</th>
-                        <th class="analysis-col">牛轉門實戰解析 (收盤確認為準)</th>
+                        <th style="min-width:400px;">牛轉門實戰解析 (收盤確認有效)</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -171,38 +254,44 @@
         <div class="note-card">
             <h3>⚡ 能量等級說明</h3>
             <ul>
-                <li><b class="red-text">1. 極多</b>：全週期向上共振，能量爆發。</li>
-                <li><b class="red-text">2. 強多</b>：正弦相位 (1, 3, B) 主導，回測買點。</li>
-                <li><b style="color: var(--primary);">3. 多空關鍵</b>：臨界點，觀察小齒輪引動。</li>
-                <li><b class="green-text">4. 空誘多</b>：B段反彈，屬於餘弦波修正，準備放空。</li>
-                <li><b class="green-text">5. 空頭</b>：餘弦相位 (2, A, C) 主導，重力加速。</li>
+                <li><b class="red-text">1. 極多</b>：全週期向上共振，能量噴發，主升段最強慣性。</li>
+                <li><b class="red-text">2. 強多</b>：正弦相位 (1, 3, B) 主導，多頭趨勢確立，回測買點。</li>
+                <li><b class="blue-text">3. 多空關鍵</b>：臨界點，性質轉化中，觀察小齒輪引動方向。</li>
+                <li><b class="green-text">4. 空誘多</b>：B 段反彈，屬於餘弦波修正性質，準備隨時轉向。</li>
+                <li><b class="green-text">5. 空頭</b>：餘弦相位 (2, A, C) 主導，重力加速，嚴禁抄底。</li>
             </ul>
         </div>
         <div class="note-card">
             <h3>🚪 門控機理說明</h3>
             <ul>
-                <li><b class="red-text">🔓 開門發動</b>：價格站上 W 門或跌破 M 門，空間開啟。</li>
-                <li><b class="red-text">🔄 測門買點</b>：標籤 2 回測不破門，是牛轉門最精確買點。</li>
-                <li><b class="red-text">⚠️ B反彈找空點</b>：B 段反彈受阻於門，是誘多找空機會。</li>
-                <li><b class="green-text">🔒 關門撤退</b>：價格縮回門內，代表波動結束，應立即離場。</li>
+                <li><b class="red-text">🔓 開門發動</b>：價格突破 W 門(底)或 M 門(頭)，新空間被有效開啟。</li>
+                <li><b class="red-text">🔄 測門買點</b>：標籤 2 回測不破門(中軌)，是牛轉門最精確買點。</li>
+                <li><b class="red-text">⚠️ B反彈找空點</b>：B 段反彈受阻於壓力門，是誘多找空的伏擊位置。</li>
+                <li><b class="green-text">🔒 關門撤退</b>：價格縮回門內，代表波動性質結束，應立即離場。</li>
             </ul>
         </div>
         <div class="note-card">
             <h3>🏷️ 標籤屬性 (紅漲綠跌)</h3>
             <ul>
-                <li><b class="red-text">1, 3, B</b>：正弦相位。代表向上發散、回升或反彈能量。</li>
-                <li><b class="green-text">2, A, C</b>：餘弦相位。代表向下修正、初跌或主跌重力。</li>
-                <li><b>收盤確認</b>：所有判斷必須以<b>該時框收盤價</b>為準。</li>
+                <li><b class="red-text">1, 3, B</b>：正弦相位。代表向上發散、起漲、主升或回升能量。</li>
+                <li><b class="green-text">2, A, C</b>：餘弦相位。代表向下修正、初跌、主跌或重力回踩。</li>
+                <li><b>收盤確認</b>：所有狀態切換與開關門，必須以<b>該週期收盤價</b>為準。</li>
             </ul>
         </div>
         <div class="note-card">
             <h3>📈 導航層級定位</h3>
             <ul>
-                <li><b>月/週/日</b>：宏觀重力，定義時代之門。</li>
-                <li><b>4H/60m</b>：波段標竿，判定當日強弱。</li>
-                <li><b>15m/5m/1m</b>：進場板機，捕捉引動瞬間。</li>
+                <li><b>月/週/日 (宏觀)</b>：定義「時代重力」，決定大趨勢的開門與關門。</li>
+                <li><b>4H/60m (中期)</b>：定義「波段標竿」，判定當日強弱與防禦臨界位。</li>
+                <li><b>15m/5m/1m (微觀)</b>：定義「進場板機」，捕捉「受精卵」開門引動效應。</li>
             </ul>
         </div>
+    </div>
+
+    <!-- 署名與免責聲明區 -->
+    <div class="app-attribution">
+        程式撰寫：六甲豆子<br>
+        ⚠️ 注意：個人交易心得整理，不構成投資建議；牛軍開門教學請自行到 <a href="https://www.skool.com/niujun-open-the-door/about?ref=35d3add8e5c64bb58850c92c283d1ba4" target="_blank" class="skool-link">SKOOL 技術原創者</a> 學習，尊重技術原創者
     </div>
 </div>
 
@@ -233,32 +322,31 @@
                 <div class="input-item">
                     <label>波動標籤</label>
                     <select id="wave_${tf.id}">
-                        <option value="1">1 - 起漲</option><option value="2">2 - 回測</option>
-                        <option value="3">3 - 主升</option><option value="A">A - 初跌</option>
-                        <option value="B">B - 反彈</option><option value="C" selected>C - 主跌</option>
+                        <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option>
                     </select>
                 </div>
-                <div class="input-item">
-                    <label>7字訣</label>
-                    <select id="mantra_${tf.id}">
-                        <option value="UP">UP (紅等黑)</option><option value="DOWN" selected>DOWN (黑等紅)</option>
-                    </select>
-                </div>
-                <div class="input-item">
-                    <label>門屬性</label>
-                    <select id="gateType_${tf.id}">
-                        <option value="NONE">無門</option><option value="W_GATE">W 門(底)</option><option value="M_GATE">M 門(頭)</option>
-                    </select>
-                </div>
-                <div class="input-item">
-                    <label>門開關</label>
-                    <select id="gateStatus_${tf.id}">
-                        <option value="FORMING">形成中</option><option value="OPEN">已開啟</option><option value="CLOSED">已關閉</option>
-                    </select>
-                </div>
+                <div class="input-item"><label>7字訣方向</label><select id="mantra_${tf.id}"><option value="UP">UP</option><option value="DOWN">DOWN</option></select></div>
+                <div class="input-item"><label>門屬性</label><select id="gateType_${tf.id}"><option value="NONE">無門</option><option value="W_GATE">W 門</option><option value="M_GATE">M 門</option></select></div>
+                <div class="input-item"><label>門開關</label><select id="gateStatus_${tf.id}"><option value="FORMING">形成中</option><option value="OPEN">已開啟</option><option value="CLOSED">已關閉</option></select></div>
             `;
             panel.appendChild(row);
         });
+    }
+
+    function loadExample() {
+        const ex = ['3','3','3','A','3','C','C','1'];
+        timeframes.forEach((tf, i) => {
+            document.getElementById(`wave_${tf.id}`).value = ex[i];
+        });
+        runSystemAnalysis();
+    }
+
+    function getGateStatusHtml(m) {
+        if (!m) return "-";
+        const typeTxt = m.gateType === 'W_GATE' ? 'W門' : (m.gateType === 'M_GATE' ? 'M門' : '無門');
+        const statusTxt = m.gateStatus === 'OPEN' ? '<span style="color:var(--up-red)">已開</span>' : (m.gateStatus === 'CLOSED' ? '<span style="color:var(--down-green)">已關</span>' : '形成中');
+        return `<b>${m.name}級</b>: ${typeTxt}(${statusTxt})`;
     }
 
     function runSystemAnalysis() {
@@ -267,16 +355,15 @@
         const tbody = document.querySelector('#mainTable tbody');
         tbody.innerHTML = '';
 
-        let matrix = timeframes.map(tf => {
-            return {
-                id: tf.id, name: tf.name, ratio: tf.ratio, weight: tf.weight,
-                wave: document.getElementById(`wave_${tf.id}`).value,
-                mantra: document.getElementById(`mantra_${tf.id}`).value, 
-                gateType: document.getElementById(`gateType_${tf.id}`).value, 
-                gateStatus: document.getElementById(`gateStatus_${tf.id}`).value
-            };
-        });
+        let matrix = timeframes.map(tf => ({
+            id: tf.id, name: tf.name, ratio: tf.ratio, weight: tf.weight,
+            wave: document.getElementById(`wave_${tf.id}`).value,
+            mantra: document.getElementById(`mantra_${tf.id}`).value, 
+            gateType: document.getElementById(`gateType_${tf.id}`).value, 
+            gateStatus: document.getElementById(`gateStatus_${tf.id}`).value
+        }));
 
+        // 1. 多空評分
         let currentVector = 0;
         matrix.forEach(m => {
             let v = [0, 2, 4].includes(labelMap[m.wave]) ? 1 : -1;
@@ -285,80 +372,95 @@
         });
 
         const trendMeter = document.getElementById('trendMeter');
-        if (currentVector > 20) { trendMeter.innerHTML = "強烈看多 🚀"; trendMeter.className = "meter-value trend-up"; }
-        else if (currentVector < -20) { trendMeter.innerHTML = "強烈看空 📉"; trendMeter.className = "meter-value trend-down"; }
-        else { trendMeter.innerHTML = "中性震盪 ⚖️"; trendMeter.className = "meter-value"; }
+        if (currentVector > 20) { trendMeter.innerHTML = "多頭慣性強烈 🚀"; trendMeter.className = "meter-card trend-up"; }
+        else if (currentVector < -20) { trendMeter.innerHTML = "空頭重力強烈 📉"; trendMeter.className = "meter-card trend-down"; }
+        else { trendMeter.innerHTML = "中性整理區 ⚖️"; trendMeter.className = "meter-card"; }
 
+        // 2. 極端行情
+        updateExtremeAlert(matrix);
+
+        // 3. 絕對防禦聯動 (三層級展示)
         const defensePoint = document.getElementById('defensePoint');
-        const refM = matrix[refIdx];
-        const gName = refM.gateType==='W_GATE'?'W門(底)':(refM.gateType==='M_GATE'?'M門(頭)':'尚未定門');
-        defensePoint.innerHTML = `<span style="color:var(--primary)">${refM.name}級</span> ${gName}<br><small style="font-size:9px;color:#999">收盤確認有效</small>`;
+        // 向上層級 (宏觀): 若基準是 60m(4)，上層取 日(2) 或 4H(3)
+        // 為了符合用戶「日, 60M, 15M」需求，若 refIdx 是 4 (60m)，取 2 (日)
+        let macroIdx = refIdx >= 2 ? (refIdx === 4 ? 2 : refIdx - 1) : null;
+        let microIdx = refIdx < 7 ? refIdx + 1 : null;
 
+        let macroInfo = macroIdx !== null ? `🔼 宏觀：${getGateStatusHtml(matrix[macroIdx])}` : "";
+        let targetInfo = `🎯 基準：${getGateStatusHtml(matrix[refIdx])}`;
+        let microInfo = microIdx !== null ? `🔽 微觀：${getGateStatusHtml(matrix[microIdx])}` : "";
+
+        defensePoint.innerHTML = `${macroInfo}<br>${targetInfo}<br>${microInfo}`;
+
+        // 4. 未來演化預言 (白話化)
         const scenarioText = document.getElementById('scenarioText');
         const isMicroOpen = labelMap[matrix[7].wave] === 0 || labelMap[matrix[7].wave] === 2;
         if (matrix[0].wave==='2' && matrix[1].wave==='C' && (matrix[2].wave==='1'||matrix[2].wave==='2')) {
-            scenarioText.innerHTML = "✨ <span style='color:var(--up-red)'>黃金機會</span>：大週期休息，小週期點火。";
+            scenarioText.innerHTML = "✨ <span style='color:var(--up-red)'>黃金機會</span>：大週期正在休息蓄勢，小週期火苗已燃。完美進場！";
         } else if (isMicroOpen && currentVector < 0) {
-            scenarioText.innerHTML = "⚙️ <span style='color:var(--gate-blue)'>引動觀察</span>：1m/5m 正試圖推開 " + refM.name + " 級大門。";
+            scenarioText.innerHTML = "⚙️ <span style='color:var(--gate-blue)'>引動觀察</span>：1m/5m 正嘗試推開大級別門。觀察 " + matrix[refIdx].name + " 是否過收盤。";
         } else {
-            scenarioText.innerHTML = "⚖️ 結構蓄勢中：觀察能量傳导與門控切換。";
+            scenarioText.innerHTML = "⚖️ 結構蓄勢：目前各級別正在進行位階拉扯，觀察 " + matrix[refIdx].name + " 級別防線。";
         }
 
+        // 5. 推演循環
         for (let s = 1; s <= steps; s++) {
             let rowTags = [];
             let totalPower = 0;
-            let criticalKick = false;
-            let windowCounts = [];
 
-            matrix.forEach((m, i) => {
-                let startIdx = labelMap[m.wave];
-                let curIdx, nextIdx;
-                if (m.gateType === 'W_GATE' && m.gateStatus === 'OPEN') {
-                    const loop = [0, 1, 2, 1, 2]; 
-                    curIdx = loop[Math.floor(s / m.ratio) % loop.length];
-                    nextIdx = loop[Math.floor((s+1) / m.ratio) % loop.length];
-                } else if (m.gateType === 'M_GATE' && m.gateStatus === 'CLOSED') {
-                    const loop = [3, 4, 5, 4, 5]; 
-                    curIdx = loop[Math.floor(s / m.ratio) % loop.length];
-                    nextIdx = loop[Math.floor((s+1) / m.ratio) % loop.length];
-                } else {
-                    curIdx = (startIdx + Math.floor(s / m.ratio)) % 6;
-                    nextIdx = (startIdx + Math.floor((s+1) / m.ratio)) % 6;
-                }
+            matrix.forEach(m => {
+                let curIdx = (labelMap[m.wave] + Math.floor(s / m.ratio)) % 6;
                 rowTags.push(curIdx);
-                if (curIdx !== nextIdx) criticalKick = true;
                 if ([0, 2, 4].includes(curIdx)) totalPower += m.weight;
-                windowCounts.push(s % m.ratio);
             });
-
-            const pLevel = getPowerLevel(totalPower);
-            const gStatus = getGateStatus(rowTags[refIdx]);
 
             const tr = document.createElement('tr');
             if (rowTags[0] === 1 && rowTags[1] === 5 && (rowTags[2] === 0 || rowTags[2] === 1)) tr.className = "golden-puzzle";
-            else if (criticalKick) tr.className = "critical-kick";
-
-            let html = `<td><b>Step ${s}</b><span class="time-box">${windowCounts[7]}m</span></td>`;
+            
+            let html = `<td><b>Step ${s}</b></td>`;
             rowTags.forEach(v => {
                 const isUp = [0, 2, 4].includes(v); 
                 html += `<td><span class="tag-cell ${isUp ? 'tag-up' : 'tag-down'}">${labels[v]}</span></td>`;
             });
             
+            let pLevel = getPowerLevel(totalPower);
+            let gStatus = getGateStatus(rowTags[refIdx]);
+
             html += `<td>
                 <span class="gate-status-tag ${gStatus.cls}">${gStatus.txt}</span>
                 <span class="level-badge p-${pLevel.id}">${pLevel.name}</span>
                 <div class="power-text">共振能量: ${totalPower}%</div>
             </td>`;
 
-            let analysis = `➡ 觀察 1m 級引動是否能推開 ${levelNames[refIdx]} 級大門。`;
-            if (rowTags[refIdx] === 1 && totalPower >= 70) analysis = `➡ <b>測門買點</b>：${levelNames[refIdx]}級回測，收盤不破即買。`;
-            else if (rowTags[refIdx] === 4) analysis = `⚠️ <b>誘多陷阱</b>：B反彈受壓於門，準備執行 B 點放空。`;
-            else if (criticalKick) analysis = `🔥 <b>臨門一腳</b>：性質即將切換，<b>請等待收盤確認！</b>`;
-
-            html += `<td class="analysis-col">${analysis}</td>`;
+            html += `<td class="analysis-col">正在觀察 ${levelNames[refIdx]} 級別是否能在 Step ${s} 處維持開門性質。</td>`;
             tr.innerHTML = html;
             tbody.appendChild(tr);
         }
+    }
+
+    function updateExtremeAlert(matrix) {
+        const panel = document.getElementById('extremeAlert');
+        const title = document.getElementById('alertTitle');
+        const body = document.getElementById('alertBody');
+        const counter = document.getElementById('alertCounter');
+
+        const macroWaves = matrix.slice(0, 5).map(m => m.wave);
+        const isAll3 = macroWaves.every(w => w === '3');
+        const isAllC = macroWaves.every(w => w === 'C');
+
+        if (isAll3) {
+            panel.style.display = 'block'; panel.style.borderColor = '#ff0000';
+            title.innerHTML = `<span style="color:#ff0000">⚠️ 【極陽反轉警告：33333 結構】</span>`;
+            body.innerHTML = `大週期處於極盛狀態。15M 以下若關門即引發大跌。`;
+            let closedCount = 0; [5,6,7].forEach(i => { if (matrix[i].gateStatus === 'CLOSED') closedCount++; });
+            counter.innerHTML = `微觀門關閉數：${closedCount} (數量越多越危險)`;
+        } else if (isAllC) {
+            panel.style.display = 'block'; panel.style.borderColor = 'var(--down-green)';
+            title.innerHTML = `<span style="color:var(--down-green)">🚀 【極陰轉多提示：CCCCC 結構】</span>`;
+            body.innerHTML = `市場處於極負之地。尋找 15M 底部開門的第一扳機。`;
+            let openCount = 0; [5,6,7].forEach(i => { if (matrix[i].gateStatus === 'OPEN') openCount++; });
+            counter.innerHTML = `微觀門開啟數：${openCount} (數量越多轉強信號越真)`;
+        } else { panel.style.display = 'none'; }
     }
 
     function getPowerLevel(p) {
@@ -370,10 +472,10 @@
     }
 
     function getGateStatus(tag) {
-        if (tag === 0 || tag === 2) return {txt:"🔓 開門發動", cls:"gs-open"};
-        if (tag === 1) return {txt:"🔄 測門買點", cls:"gs-open"};
+        if (tag === 0 || tag === 2) return {txt:"🔓 開門", cls:"gs-open"};
+        if (tag === 1) return {txt:"🔄 測門", cls:"gs-open"};
         if (tag === 4) return {txt:"⚠️ B反彈找空點", cls:"gs-alert"};
-        return {txt:"🔒 關門撤退", cls:"gs-close"};
+        return {txt:"🔒 關門", cls:"gs-close"};
     }
 
     window.onload = initUI;
