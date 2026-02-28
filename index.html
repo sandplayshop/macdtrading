@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a73e8">
+    <title>牛轉門：時空導航儀 (極簡版)</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuWIm+i9iee6gOaZgum6uuiwsOatueitpOakrCIsCiAgInNob3J0X25hbWUiIjogIuWIm+i9iee6gCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZjRmN2Y5IiwKICAidGhlbWVfY29sb3IiOiAiIzFhNzNlOCIKfQ==">
+
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-hover: #1557b0;
+            --bg: #f4f7f9;
+            --card: #ffffff;
+            --up-red: #d32f2f;
+            --down-green: #388e3c;
+            --warning: #f9ab00;
+            --border: #dadce0;
+            --text-main: #202124;
+            --text-sub: #5f6368;
+            --harmony-gold: #ffd700;
+            --gate-blue: #0288d1;
+            --puzzle-purple: #7b1fa2;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); padding: 10px; color: var(--text-main); margin: 0; }
+
+        .container { width: 100%; max-width: 1850px; margin: 0 auto; background: var(--card); padding: 15px; border-radius: 12px; box-shadow: 0 4px 30px rgba(0,0,0,0.1); }
+        
+        header { text-align: center; margin-bottom: 20px; border-bottom: 3px solid var(--primary); padding-bottom: 10px; }
+        h1 { color: var(--primary); margin: 0; font-size: clamp(1.2rem, 4vw, 1.8rem); }
+        .description { color: var(--text-sub); font-size: 0.85rem; margin-top: 5px; font-weight: 500; }
+
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .meter-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 100px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .meter-title { font-size: 0.8rem; font-weight: bold; color: var(--text-sub); margin-bottom: 6px; border-bottom: 1px solid #f1f3f4; padding-bottom: 4px; }
+        .meter-value { font-size: 1.3rem; font-weight: 900; line-height: 1.2; }
+        .trend-up { color: var(--up-red); }
+        .trend-down { color: var(--down-green); }
+
+        .config-panel { background: #ffffff; padding: 12px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border); }
+        .level-row { display: grid; grid-template-columns: 50px 1fr 1fr 1fr 1fr; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid #f1f3f4; }
+        .level-label { font-weight: 800; font-size: 13px; color: var(--primary); text-align: center; }
+        
+        @media (max-width: 850px) {
+            .level-row { grid-template-columns: 1fr 1fr; }
+            .level-label { grid-column: span 2; background: #e8f0fe; padding: 4px; border-radius: 4px; }
+        }
+
+        .input-item { display: flex; flex-direction: column; }
+        .input-item label { font-size: 10px; color: #777; margin-bottom: 2px; text-align: center; font-weight: bold; }
+        select, input { padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-size: 12px; text-align: center; background: #fdfdfd; width: 100%; }
+
+        .actions { display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+        .btn { padding: 12px 40px; border-radius: 25px; font-weight: bold; cursor: pointer; border: none; font-size: 15px; background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(26,115,232,0.3); }
+
+        .result-box { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #fff; }
+        .scroll-area { max-height: 50vh; overflow: auto; position: relative; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 11px; min-width: 1400px; }
+        thead th { position: sticky; top: 0; background: #f8f9fa; z-index: 20; padding: 12px 4px; border-bottom: 2px solid var(--primary); font-weight: 800; }
+        
+        td:first-child, th:first-child { position: sticky; left: 0; background: #f8f9fa; z-index: 10; border-right: 2px solid var(--border); font-weight: 800; }
+        thead th:first-child { z-index: 25; }
+
+        td { padding: 10px 4px; text-align: center; border-bottom: 1px solid #f1f3f4; }
+        
+        /* 1, 3, B 紅色 | 2, A, C 綠色 */
+        .tag-cell { font-weight: 800; border-radius: 4px; padding: 4px 8px; display: inline-block; min-width: 28px; }
+        .tag-up { color: #b71c1c; background: #ffebee; border: 1px solid #ef9a9a; } 
+        .tag-down { color: #1b5e20; background: #e8f5e9; border: 1px solid #a5d6a7; }
+
+        .analysis-col { text-align: left; padding-left: 15px; min-width: 500px; line-height: 1.6; }
+
+        /* 能量等級 - 顏色定義 (紅漲綠跌) */
+        .level-badge { font-weight: 900; padding: 2px 8px; border-radius: 4px; font-size: 11px; display: inline-block; margin-bottom: 3px; min-width: 90px; text-align: center; background: transparent; border: 1px solid currentColor; }
+        .p-1 { color: #ff0000; border-color: #ff0000; box-shadow: 0 0 3px rgba(255,0,0,0.2); } /* 極多：紅色 */
+        .p-2 { color: var(--up-red); } /* 強多：紅色 */
+        .p-3 { color: var(--primary); } /* 多空關鍵：藍色 */
+        .p-4 { color: var(--down-green); } /* 空誘多：綠色 */
+        .p-5 { color: var(--down-green); font-weight: 900; } /* 空頭：綠色 */
+
+        /* 門控狀態標籤顏色 (紅色=發動/買點/誘多 | 綠色=撤退) */
+        .gate-status-tag { font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; display: block; margin-bottom: 2px; text-transform: uppercase; border: 1px solid transparent; }
+        .gs-open { color: #ff0000; border-color: #ff0000; } /* 開門、測門：改為紅色 */
+        .gs-close { color: var(--down-green); border-color: var(--down-green); } /* 關門撤退：改為綠色 */
+        .gs-alert { color: #ff0000; border-color: #ff0000; } /* B反彈找空點：紅色 */
+
+        .power-text { font-size: 10px; font-weight: bold; color: #777; margin-top: 4px; }
+
+        .golden-puzzle { background: #fffdf0 !important; border-left: 6px solid var(--harmony-gold); } 
+        .critical-kick { background: #fdf2ff !important; border-left: 5px solid var(--puzzle-purple); } 
+
+        .footer-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; padding: 20px; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; margin-top: 20px; }
+        .note-card h3 { color: var(--primary); font-size: 1rem; margin-top: 0; border-left: 4px solid var(--primary); padding-left: 10px; margin-bottom: 10px; }
+        .note-card p, .note-card li { font-size: 0.8rem; color: #444; line-height: 1.6; }
+        .note-card ul { padding-left: 15px; }
+        .note-card b { font-weight: 700; }
+        .note-card .red-text { color: #ff0000; }
+        .note-card .green-text { color: var(--down-green); }
+        .time-box { font-size: 9px; color: #999; display: block; margin-top: 2px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>牛轉門：波動・拼圖・時空導航儀</h1>
+        <div class="description">多週期共振拼圖 | 多雙波動結構 | 等待收盤確認</div>
+        <div class="description">程式撰寫：六甲豆子</div>
+        <div class="description">⚠️ 注意：個人交易心得整理，不構成投資建議；牛軍開門教學請自行到<a href="https://www.skool.com/niujun-open-the-door/about?ref=35d3add8e5c64bb58850c92c283d1ba4">SKOOL技術原創者</a>學習</div>
+    </header>
+
+    <div class="dashboard">
+        <div class="meter-card">
+            <div class="meter-title">當前多空評分 (Trend)</div>
+            <div id="trendMeter" class="meter-value">等待推演...</div>
+        </div>
+        <div class="meter-card">
+            <div class="meter-title">未來演化預言 (Scenario)</div>
+            <div id="scenarioText" style="font-size: 0.85rem; font-weight: 600;">請輸入參數後點擊推演</div>
+        </div>
+        <div class="meter-card">
+            <div class="meter-title">絕對防守基準 (Risk Control)</div>
+            <div id="defensePoint" class="meter-value" style="color: var(--puzzle-purple); font-size: 1.1rem;">選擇層級後標示</div>
+        </div>
+    </div>
+
+    <div class="config-panel" id="inputPanel">
+        <!-- JS 動態生成 -->
+    </div>
+
+    <div class="actions">
+        <div class="input-item" style="min-width:180px;">
+            <label>選擇導航基準層級</label>
+            <select id="refLevel">
+                <option value="0">月線基準</option><option value="1">週線基準</option><option value="2">日線基準</option>
+                <option value="3" selected>4H 基準</option>
+                <option value="4">60m 基準</option><option value="5">15m 基準</option><option value="6">5m 基準</option><option value="7">1m 基準</option>
+            </select>
+        </div>
+        <div class="input-item" style="min-width:100px;">
+            <label>預演步數</label>
+            <input type="number" id="stepCount" value="60" min="1">
+        </div>
+        <button class="btn" onclick="runSystemAnalysis()">開始多週期矩陣推演</button>
+    </div>
+
+    <div class="result-box">
+        <div class="scroll-area">
+            <table id="mainTable">
+                <thead>
+                    <tr>
+                        <th style="width: 85px;">步數 / 窗口</th>
+                        <th>月</th><th>週</th><th>日</th><th>4H</th><th>60m</th><th>15m</th><th>5m</th><th>1m</th>
+                        <th style="width: 190px;">能量・狀態 / 門控</th>
+                        <th class="analysis-col">牛轉門實戰解析 (收盤確認為準)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer-notes">
+        <div class="note-card">
+            <h3>⚡ 能量等級說明</h3>
+            <ul>
+                <li><b class="red-text">1. 極多</b>：全週期向上共振，能量爆發。</li>
+                <li><b class="red-text">2. 強多</b>：正弦相位 (1, 3, B) 主導，回測買點。</li>
+                <li><b style="color: var(--primary);">3. 多空關鍵</b>：臨界點，觀察小齒輪引動。</li>
+                <li><b class="green-text">4. 空誘多</b>：B段反彈，屬於餘弦波修正，準備放空。</li>
+                <li><b class="green-text">5. 空頭</b>：餘弦相位 (2, A, C) 主導，重力加速。</li>
+            </ul>
+        </div>
+        <div class="note-card">
+            <h3>🚪 門控機理說明</h3>
+            <ul>
+                <li><b class="red-text">🔓 開門發動</b>：價格站上 W 門或跌破 M 門，空間開啟。</li>
+                <li><b class="red-text">🔄 測門買點</b>：標籤 2 回測不破門，是牛轉門最精確買點。</li>
+                <li><b class="red-text">⚠️ B反彈找空點</b>：B 段反彈受阻於門，是誘多找空機會。</li>
+                <li><b class="green-text">🔒 關門撤退</b>：價格縮回門內，代表波動結束，應立即離場。</li>
+            </ul>
+        </div>
+        <div class="note-card">
+            <h3>🏷️ 標籤屬性 (紅漲綠跌)</h3>
+            <ul>
+                <li><b class="red-text">1, 3, B</b>：正弦相位。代表向上發散、回升或反彈能量。</li>
+                <li><b class="green-text">2, A, C</b>：餘弦相位。代表向下修正、初跌或主跌重力。</li>
+                <li><b>收盤確認</b>：所有判斷必須以<b>該時框收盤價</b>為準。</li>
+            </ul>
+        </div>
+        <div class="note-card">
+            <h3>📈 導航層級定位</h3>
+            <ul>
+                <li><b>月/週/日</b>：宏觀重力，定義時代之門。</li>
+                <li><b>4H/60m</b>：波段標竿，判定當日強弱。</li>
+                <li><b>15m/5m/1m</b>：進場板機，捕捉引動瞬間。</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    const timeframes = [
+        { id: 'M', name: '月', weight: 25, ratio: 43200 },
+        { id: 'W', name: '週', weight: 18, ratio: 10080 },
+        { id: 'D', name: '日', weight: 14, ratio: 1440 },
+        { id: '4H', name: '4H', weight: 12, ratio: 240 },
+        { id: '60m', name: '60m', weight: 10, ratio: 60 },
+        { id: '15m', name: '15m', weight: 8, ratio: 15 },
+        { id: '5m', name: '5m', weight: 8, ratio: 5 },
+        { id: '1m', name: '1m', weight: 5, ratio: 1 }
+    ];
+
+    const levelNames = timeframes.map(tf => tf.name);
+    const labels = ['1', '2', '3', 'A', 'B', 'C'];
+    const labelMap = {'1':0, '2':1, '3':2, 'A':3, 'B':4, 'C':5};
+
+    function initUI() {
+        const panel = document.getElementById('inputPanel');
+        panel.innerHTML = ''; 
+        timeframes.forEach(tf => {
+            const row = document.createElement('div');
+            row.className = 'level-row';
+            row.innerHTML = `
+                <div class="level-label">${tf.name}</div>
+                <div class="input-item">
+                    <label>波動標籤</label>
+                    <select id="wave_${tf.id}">
+                        <option value="1">1 - 起漲</option><option value="2">2 - 回測</option>
+                        <option value="3">3 - 主升</option><option value="A">A - 初跌</option>
+                        <option value="B">B - 反彈</option><option value="C" selected>C - 主跌</option>
+                    </select>
+                </div>
+                <div class="input-item">
+                    <label>7字訣</label>
+                    <select id="mantra_${tf.id}">
+                        <option value="UP">UP (紅等黑)</option><option value="DOWN" selected>DOWN (黑等紅)</option>
+                    </select>
+                </div>
+                <div class="input-item">
+                    <label>門屬性</label>
+                    <select id="gateType_${tf.id}">
+                        <option value="NONE">無門</option><option value="W_GATE">W 門(底)</option><option value="M_GATE">M 門(頭)</option>
+                    </select>
+                </div>
+                <div class="input-item">
+                    <label>門開關</label>
+                    <select id="gateStatus_${tf.id}">
+                        <option value="FORMING">形成中</option><option value="OPEN">已開啟</option><option value="CLOSED">已關閉</option>
+                    </select>
+                </div>
+            `;
+            panel.appendChild(row);
+        });
+    }
+
+    function runSystemAnalysis() {
+        const steps = parseInt(document.getElementById('stepCount').value) || 60;
+        const refIdx = parseInt(document.getElementById('refLevel').value);
+        const tbody = document.querySelector('#mainTable tbody');
+        tbody.innerHTML = '';
+
+        let matrix = timeframes.map(tf => {
+            return {
+                id: tf.id, name: tf.name, ratio: tf.ratio, weight: tf.weight,
+                wave: document.getElementById(`wave_${tf.id}`).value,
+                mantra: document.getElementById(`mantra_${tf.id}`).value, 
+                gateType: document.getElementById(`gateType_${tf.id}`).value, 
+                gateStatus: document.getElementById(`gateStatus_${tf.id}`).value
+            };
+        });
+
+        let currentVector = 0;
+        matrix.forEach(m => {
+            let v = [0, 2, 4].includes(labelMap[m.wave]) ? 1 : -1;
+            if (m.wave === 'B' && m.mantra === 'DOWN') v = -1;
+            currentVector += v * m.weight;
+        });
+
+        const trendMeter = document.getElementById('trendMeter');
+        if (currentVector > 20) { trendMeter.innerHTML = "強烈看多 🚀"; trendMeter.className = "meter-value trend-up"; }
+        else if (currentVector < -20) { trendMeter.innerHTML = "強烈看空 📉"; trendMeter.className = "meter-value trend-down"; }
+        else { trendMeter.innerHTML = "中性震盪 ⚖️"; trendMeter.className = "meter-value"; }
+
+        const defensePoint = document.getElementById('defensePoint');
+        const refM = matrix[refIdx];
+        const gName = refM.gateType==='W_GATE'?'W門(底)':(refM.gateType==='M_GATE'?'M門(頭)':'尚未定門');
+        defensePoint.innerHTML = `<span style="color:var(--primary)">${refM.name}級</span> ${gName}<br><small style="font-size:9px;color:#999">收盤確認有效</small>`;
+
+        const scenarioText = document.getElementById('scenarioText');
+        const isMicroOpen = labelMap[matrix[7].wave] === 0 || labelMap[matrix[7].wave] === 2;
+        if (matrix[0].wave==='2' && matrix[1].wave==='C' && (matrix[2].wave==='1'||matrix[2].wave==='2')) {
+            scenarioText.innerHTML = "✨ <span style='color:var(--up-red)'>黃金機會</span>：大週期休息，小週期點火。";
+        } else if (isMicroOpen && currentVector < 0) {
+            scenarioText.innerHTML = "⚙️ <span style='color:var(--gate-blue)'>引動觀察</span>：1m/5m 正試圖推開 " + refM.name + " 級大門。";
+        } else {
+            scenarioText.innerHTML = "⚖️ 結構蓄勢中：觀察能量傳导與門控切換。";
+        }
+
+        for (let s = 1; s <= steps; s++) {
+            let rowTags = [];
+            let totalPower = 0;
+            let criticalKick = false;
+            let windowCounts = [];
+
+            matrix.forEach((m, i) => {
+                let startIdx = labelMap[m.wave];
+                let curIdx, nextIdx;
+                if (m.gateType === 'W_GATE' && m.gateStatus === 'OPEN') {
+                    const loop = [0, 1, 2, 1, 2]; 
+                    curIdx = loop[Math.floor(s / m.ratio) % loop.length];
+                    nextIdx = loop[Math.floor((s+1) / m.ratio) % loop.length];
+                } else if (m.gateType === 'M_GATE' && m.gateStatus === 'CLOSED') {
+                    const loop = [3, 4, 5, 4, 5]; 
+                    curIdx = loop[Math.floor(s / m.ratio) % loop.length];
+                    nextIdx = loop[Math.floor((s+1) / m.ratio) % loop.length];
+                } else {
+                    curIdx = (startIdx + Math.floor(s / m.ratio)) % 6;
+                    nextIdx = (startIdx + Math.floor((s+1) / m.ratio)) % 6;
+                }
+                rowTags.push(curIdx);
+                if (curIdx !== nextIdx) criticalKick = true;
+                if ([0, 2, 4].includes(curIdx)) totalPower += m.weight;
+                windowCounts.push(s % m.ratio);
+            });
+
+            const pLevel = getPowerLevel(totalPower);
+            const gStatus = getGateStatus(rowTags[refIdx]);
+
+            const tr = document.createElement('tr');
+            if (rowTags[0] === 1 && rowTags[1] === 5 && (rowTags[2] === 0 || rowTags[2] === 1)) tr.className = "golden-puzzle";
+            else if (criticalKick) tr.className = "critical-kick";
+
+            let html = `<td><b>Step ${s}</b><span class="time-box">${windowCounts[7]}m</span></td>`;
+            rowTags.forEach(v => {
+                const isUp = [0, 2, 4].includes(v); 
+                html += `<td><span class="tag-cell ${isUp ? 'tag-up' : 'tag-down'}">${labels[v]}</span></td>`;
+            });
+            
+            html += `<td>
+                <span class="gate-status-tag ${gStatus.cls}">${gStatus.txt}</span>
+                <span class="level-badge p-${pLevel.id}">${pLevel.name}</span>
+                <div class="power-text">共振能量: ${totalPower}%</div>
+            </td>`;
+
+            let analysis = `➡ 觀察 1m 級引動是否能推開 ${levelNames[refIdx]} 級大門。`;
+            if (rowTags[refIdx] === 1 && totalPower >= 70) analysis = `➡ <b>測門買點</b>：${levelNames[refIdx]}級回測，收盤不破即買。`;
+            else if (rowTags[refIdx] === 4) analysis = `⚠️ <b>誘多陷阱</b>：B反彈受壓於門，準備執行 B 點放空。`;
+            else if (criticalKick) analysis = `🔥 <b>臨門一腳</b>：性質即將切換，<b>請等待收盤確認！</b>`;
+
+            html += `<td class="analysis-col">${analysis}</td>`;
+            tr.innerHTML = html;
+            tbody.appendChild(tr);
+        }
+    }
+
+    function getPowerLevel(p) {
+        if (p >= 85) return {id:1, name:"1. 極多"};
+        if (p >= 70) return {id:2, name:"2. 強多"};
+        if (p >= 50) return {id:3, name:"3. 多空關鍵"};
+        if (p >= 30) return {id:4, name:"4. 空誘多"};
+        return {id:5, name:"5. 空頭"};
+    }
+
+    function getGateStatus(tag) {
+        if (tag === 0 || tag === 2) return {txt:"🔓 開門發動", cls:"gs-open"};
+        if (tag === 1) return {txt:"🔄 測門買點", cls:"gs-open"};
+        if (tag === 4) return {txt:"⚠️ B反彈找空點", cls:"gs-alert"};
+        return {txt:"🔒 關門撤退", cls:"gs-close"};
+    }
+
+    window.onload = initUI;
+</script>
+
+</body>
+</html>
