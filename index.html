@@ -69,7 +69,7 @@
         .concept-item b { color: var(--text-main); border-bottom: 2px solid #ddd; }
 
         /* 儀表板 */
-        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; margin-bottom: 20px; }
         .meter-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 120px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .meter-title { font-size: 0.8rem; font-weight: bold; color: var(--text-sub); margin-bottom: 6px; border-bottom: 1px solid #f1f3f4; padding-bottom: 4px; }
         .meter-value { font-size: 1rem; font-weight: 900; line-height: 1.4; }
@@ -118,6 +118,7 @@
         
         td { padding: 10px 4px; text-align: center; border-bottom: 1px solid #f1f3f4; }
         
+        /* 1, 3, B 紅色 | 2, A, C 綠色 */
         .tag-cell { font-weight: 800; border-radius: 4px; padding: 4px 8px; display: inline-block; min-width: 28px; }
         .tag-up { color: #b71c1c; background: #ffebee; border: 1px solid #ef9a9a; } 
         .tag-down { color: #1b5e20; background: #e8f5e9; border: 1px solid #a5d6a7; }
@@ -176,13 +177,13 @@
         <h3>🔑 牛軍開門技術核心：7字訣・門・波動</h3>
         <div class="concept-grid">
             <div class="concept-item">
-                <b>🌊 識波動</b>：識別 123 (起、踩、升) 與 ABC (跌、抽、殺)。看清物理轉動，告別猜測。
+                <b>🌊 識波動</b>：識別 向上趨勢的 <b>123 (起漲、回測、發動)</b> 與 向下趨勢的 <b>ABC (起跌、反彈、下殺)</b>。波動不是向上就是向下，學會看清物理轉動，告別猜測。
             </div>
             <div class="concept-item">
-                <b>🔢 7字訣</b>：<b>「見紅之後等見黑，見黑之後等見紅」</b>。利用 MACD 堆測量波動強度。
+                <b>🔢 7字訣</b>：<b>「見紅之後等見黑，見黑之後等見紅」</b>。利用 K棒/MACD 堆測量整體強度，以此判定波動在各層級彼此牽連的合力方向。
             </div>
             <div class="concept-item">
-                <b>🚪 定門控</b>：門是物理邊界。<b>收盤價站上 W門 看多，跌破 M門 看空</b>。門下不做多，門上不做空。
+                <b>🚪 定門控</b>：門是物理邊界。<b>開門看多 (啟動 123 動能)，關門看空 (啟動 ABC 趨勢)</b>。收盤價站上 W門 看多，跌破 M門 看空。門下不做多，門上不做空。
             </div>
         </div>
     </div>
@@ -196,11 +197,11 @@
 
     <div class="dashboard">
         <div class="meter-card">
-            <div class="meter-title">當前多空評分與警語</div>
+            <div class="meter-title">當前多空總結與警語</div>
             <div id="trendMeter" class="meter-value" style="font-size:1rem;">等待推演...</div>
         </div>
         <div class="meter-card">
-            <div class="meter-title">未來演化預言 (Scenario)</div>
+            <div class="meter-title">未來演化預言 (波動牽連結果)</div>
             <div id="scenarioText" style="font-size: 0.85rem; font-weight: 600; color: #444;">請輸入參數後點擊推演</div>
         </div>
         <div class="meter-card">
@@ -254,36 +255,36 @@
         <div class="note-card">
             <h3>⚡ 能量等級說明</h3>
             <ul>
-                <li><b class="red-text">1. 極多</b>：全週期向上共振，能量噴發，主升段最強慣性。</li>
-                <li><b class="red-text">2. 強多</b>：正弦相位 (1, 3, B) 主導，多頭趨勢確立，回測買點。</li>
-                <li><b class="blue-text">3. 多空關鍵</b>：臨界點，性質轉化中，觀察小齒輪引動方向。</li>
-                <li><b class="green-text">4. 空誘多</b>：B 段反彈，屬於餘弦波修正性質，準備隨時轉向。</li>
+                <li><b class="red-text">1. 極多</b>：全週期向上共振，開門動力爆發。</li>
+                <li><b class="red-text">2. 強多</b>：正弦相位 (1, 3, B) 主導，起漲/發動趨勢確立，回測買點。</li>
+                <li><b class="blue-text">3. 多空關鍵</b>：臨界點，觀察小齒輪引動方向。</li>
+                <li><b class="green-text">4. 空誘多</b>：B 段反彈，屬於餘弦波修正性質，隨時轉向下殺。</li>
                 <li><b class="green-text">5. 空頭</b>：餘弦相位 (2, A, C) 主導，重力加速，嚴禁抄底。</li>
             </ul>
         </div>
         <div class="note-card">
             <h3>🚪 門控機理說明</h3>
             <ul>
-                <li><b class="red-text">🔓 開門發動</b>：價格突破 W 門(底)或 M 門(頭)，新空間被有效開啟。</li>
+                <li><b class="red-text">🔓 開門發動</b>：如同 7字訣向上加總，123 動能開始。開門看多。</li>
                 <li><b class="red-text">🔄 測門買點</b>：標籤 2 回測不破門(中軌)，是牛轉門最精確買點。</li>
                 <li><b class="red-text">⚠️ B反彈找空點</b>：B 段反彈受阻於壓力門，是誘多找空的伏擊位置。</li>
-                <li><b class="green-text">🔒 關門撤退</b>：價格縮回門內，代表波動性質結束，應立即離場。</li>
+                <li><b class="green-text">🔒 關門撤退</b>：如同 7字訣向下整體，ABC 趨勢啟動。關門看空。</li>
             </ul>
         </div>
         <div class="note-card">
             <h3>🏷️ 標籤屬性 (紅漲綠跌)</h3>
             <ul>
-                <li><b class="red-text">1, 3, B</b>：正弦相位。代表向上發散、起漲、主升或回升能量。</li>
-                <li><b class="green-text">2, A, C</b>：餘弦相位。代表向下修正、初跌、主跌或重力回踩。</li>
-                <li><b>收盤確認</b>：所有狀態切換與開關門，必須以<b>該週期收盤價</b>為準。</li>
+                <li><b class="red-text">1, 3, B</b>：正弦相位。向上趨勢，代表能量發散與起漲發動。</li>
+                <li><b class="green-text">2, A, C</b>：餘弦相位。向下趨勢，代表修正回測與起跌下殺。</li>
+                <li><b>多空總結</b>：由各級別波動彼此牽連、加權計算後的整體合力結果。</li>
             </ul>
         </div>
         <div class="note-card">
             <h3>📈 導航層級定位</h3>
             <ul>
-                <li><b>月/週/日 (宏觀)</b>：定義「時代重力」，決定大趨勢的開門與關門。</li>
-                <li><b>4H/60m (中期)</b>：定義「波段標竿」，判定當日強弱與防禦臨界位。</li>
-                <li><b>15m/5m/1m (微觀)</b>：定義「進場板機」，捕捉「受精卵」開門引動效應。</li>
+                <li><b>月/週/日 (宏觀)</b>：定義「時代重力」，決定大趨勢的方向。</li>
+                <li><b>4H/60m (中期)</b>：定義「波段標竿」，判定當前防禦臨界。</li>
+                <li><b>15m/5m/1m (微觀)</b>：定義「進場板機」，捕捉「受精卵」開關門瞬間。</li>
             </ul>
         </div>
     </div>
@@ -307,7 +308,6 @@
         { id: '1m', name: '1m', weight: 5, ratio: 1 }
     ];
 
-    const levelNames = timeframes.map(tf => tf.name);
     const labels = ['1', '2', '3', 'A', 'B', 'C'];
     const labelMap = {'1':0, '2':1, '3':2, 'A':3, 'B':4, 'C':5};
 
@@ -326,7 +326,7 @@
                         <option value="A">A</option><option value="B">B</option><option value="C">C</option>
                     </select>
                 </div>
-                <div class="input-item"><label>7字訣方向</label><select id="mantra_${tf.id}"><option value="UP">UP</option><option value="DOWN">DOWN</option></select></div>
+                <div class="input-item"><label>7字訣方向</label><select id="mantra_${tf.id}"><option value="UP">UP (向上)</option><option value="DOWN">DOWN (向下)</option></select></div>
                 <div class="input-item"><label>門屬性</label><select id="gateType_${tf.id}"><option value="NONE">無門</option><option value="W_GATE">W 門</option><option value="M_GATE">M 門</option></select></div>
                 <div class="input-item"><label>門開關</label><select id="gateStatus_${tf.id}"><option value="FORMING">形成中</option><option value="OPEN">已開啟</option><option value="CLOSED">已關閉</option></select></div>
             `;
@@ -345,7 +345,7 @@
     function getGateStatusHtml(m) {
         if (!m) return "-";
         const typeTxt = m.gateType === 'W_GATE' ? 'W門' : (m.gateType === 'M_GATE' ? 'M門' : '無門');
-        const statusTxt = m.gateStatus === 'OPEN' ? '<span style="color:var(--up-red)">已開</span>' : (m.gateStatus === 'CLOSED' ? '<span style="color:var(--down-green)">已關</span>' : '形成中');
+        const statusTxt = m.gateStatus === 'OPEN' ? '<span style="color:var(--up-red)">已開(看多)</span>' : (m.gateStatus === 'CLOSED' ? '<span style="color:var(--down-green)">已關(看空)</span>' : '形成中');
         return `<b>${m.name}級</b>: ${typeTxt}(${statusTxt})`;
     }
 
@@ -363,44 +363,41 @@
             gateStatus: document.getElementById(`gateStatus_${tf.id}`).value
         }));
 
-        // 1. 多空評分
+        // 1. 多空總結 (加權演算法)
         let currentVector = 0;
         matrix.forEach(m => {
             let v = [0, 2, 4].includes(labelMap[m.wave]) ? 1 : -1;
-            if (m.wave === 'B' && m.mantra === 'DOWN') v = -1;
-            currentVector += v * m.weight;
+            if (m.mantra === 'DOWN') v -= 0.5;
+            if (m.gateStatus === 'CLOSED') v -= 1; 
+            if (m.gateStatus === 'OPEN') v += 1; 
+            currentVector += v * (m.weight / 10);
         });
 
         const trendMeter = document.getElementById('trendMeter');
-        if (currentVector > 20) { trendMeter.innerHTML = "多頭慣性強烈 🚀"; trendMeter.className = "meter-card trend-up"; }
-        else if (currentVector < -20) { trendMeter.innerHTML = "空頭重力強烈 📉"; trendMeter.className = "meter-card trend-down"; }
-        else { trendMeter.innerHTML = "中性整理區 ⚖️"; trendMeter.className = "meter-card"; }
+        if (currentVector > 5) { trendMeter.innerHTML = "多空總結：向上趨勢 🚀<br><small>開門力主導，123 起漲動能</small>"; trendMeter.className = "meter-card trend-up"; }
+        else if (currentVector < -5) { trendMeter.innerHTML = "多空總結：向下趨勢 📉<br><small>關門力主導，ABC 下殺趨勢</small>"; trendMeter.className = "meter-card trend-down"; }
+        else { trendMeter.innerHTML = "多空總結：中性整理 ⚖️<br><small>層級波動牽連，靜待開關門</small>"; trendMeter.className = "meter-card"; }
 
         // 2. 極端行情
         updateExtremeAlert(matrix);
 
         // 3. 絕對防禦聯動 (三層級展示)
         const defensePoint = document.getElementById('defensePoint');
-        // 向上層級 (宏觀): 若基準是 60m(4)，上層取 日(2) 或 4H(3)
-        // 為了符合用戶「日, 60M, 15M」需求，若 refIdx 是 4 (60m)，取 2 (日)
         let macroIdx = refIdx >= 2 ? (refIdx === 4 ? 2 : refIdx - 1) : null;
         let microIdx = refIdx < 7 ? refIdx + 1 : null;
-
         let macroInfo = macroIdx !== null ? `🔼 宏觀：${getGateStatusHtml(matrix[macroIdx])}` : "";
         let targetInfo = `🎯 基準：${getGateStatusHtml(matrix[refIdx])}`;
         let microInfo = microIdx !== null ? `🔽 微觀：${getGateStatusHtml(matrix[microIdx])}` : "";
-
         defensePoint.innerHTML = `${macroInfo}<br>${targetInfo}<br>${microInfo}`;
 
         // 4. 未來演化預言 (白話化)
         const scenarioText = document.getElementById('scenarioText');
-        const isMicroOpen = labelMap[matrix[7].wave] === 0 || labelMap[matrix[7].wave] === 2;
-        if (matrix[0].wave==='2' && matrix[1].wave==='C' && (matrix[2].wave==='1'||matrix[2].wave==='2')) {
-            scenarioText.innerHTML = "✨ <span style='color:var(--up-red)'>黃金機會</span>：大週期正在休息蓄勢，小週期火苗已燃。完美進場！";
-        } else if (isMicroOpen && currentVector < 0) {
-            scenarioText.innerHTML = "⚙️ <span style='color:var(--gate-blue)'>引動觀察</span>：1m/5m 正嘗試推開大級別門。觀察 " + matrix[refIdx].name + " 是否過收盤。";
+        if (currentVector > 10) {
+            scenarioText.innerHTML = "🚀 <span style='color:var(--up-red)'>強勢發動</span>：各層級正弦波共振，開門力引動 123 結構。";
+        } else if (matrix[7].gateStatus === 'OPEN' && currentVector < 0) {
+            scenarioText.innerHTML = "⚙️ <span style='color:var(--gate-blue)'>微觀引動</span>：1m/5m 受精卵開門正嘗試扭轉重力。";
         } else {
-            scenarioText.innerHTML = "⚖️ 結構蓄勢：目前各級別正在進行位階拉扯，觀察 " + matrix[refIdx].name + " 級別防線。";
+            scenarioText.innerHTML = "⚖️ 牽連整理：波動因各層級情況彼此牽連。基準門 " + matrix[refIdx].name + " 為關鍵防禦。";
         }
 
         // 5. 推演循環
@@ -432,7 +429,8 @@
                 <div class="power-text">共振能量: ${totalPower}%</div>
             </td>`;
 
-            html += `<td class="analysis-col">正在觀察 ${levelNames[refIdx]} 級別是否能在 Step ${s} 處維持開門性質。</td>`;
+            let actionHint = [0,2,4].includes(rowTags[refIdx]) ? "123 起漲發動" : "ABC 起跌下殺";
+            html += `<td class="analysis-col">當前屬性：${actionHint}。${gStatus.txt} 性質決定是否過收盤確認。</td>`;
             tr.innerHTML = html;
             tbody.appendChild(tr);
         }
@@ -451,15 +449,15 @@
         if (isAll3) {
             panel.style.display = 'block'; panel.style.borderColor = '#ff0000';
             title.innerHTML = `<span style="color:#ff0000">⚠️ 【極陽反轉警告：33333 結構】</span>`;
-            body.innerHTML = `大週期處於極盛狀態。15M 以下若關門即引發大跌。`;
+            body.innerHTML = `大週期極盛之時。關門力即將如同 7字訣向下整體爆發。`;
             let closedCount = 0; [5,6,7].forEach(i => { if (matrix[i].gateStatus === 'CLOSED') closedCount++; });
-            counter.innerHTML = `微觀門關閉數：${closedCount} (數量越多越危險)`;
+            counter.innerHTML = `微觀門關閉數：${closedCount} (數量越多向下下殺越猛)`;
         } else if (isAllC) {
             panel.style.display = 'block'; panel.style.borderColor = 'var(--down-green)';
             title.innerHTML = `<span style="color:var(--down-green)">🚀 【極陰轉多提示：CCCCC 結構】</span>`;
-            body.innerHTML = `市場處於極負之地。尋找 15M 底部開門的第一扳機。`;
+            body.innerHTML = `市場極負之地。尋找 15M 以下開門力帶動 123 起漲的瞬間。`;
             let openCount = 0; [5,6,7].forEach(i => { if (matrix[i].gateStatus === 'OPEN') openCount++; });
-            counter.innerHTML = `微觀門開啟數：${openCount} (數量越多轉強信號越真)`;
+            counter.innerHTML = `微觀門開啟數：${openCount} (數量越多向上動能越真)`;
         } else { panel.style.display = 'none'; }
     }
 
@@ -472,10 +470,10 @@
     }
 
     function getGateStatus(tag) {
-        if (tag === 0 || tag === 2) return {txt:"🔓 開門", cls:"gs-open"};
-        if (tag === 1) return {txt:"🔄 測門", cls:"gs-open"};
+        if (tag === 0 || tag === 2) return {txt:"🔓 開門發動", cls:"gs-open"};
+        if (tag === 1) return {txt:"🔄 測門買點", cls:"gs-open"};
         if (tag === 4) return {txt:"⚠️ B反彈找空點", cls:"gs-alert"};
-        return {txt:"🔒 關門", cls:"gs-close"};
+        return {txt:"🔒 關門撤退", cls:"gs-close"};
     }
 
     window.onload = initUI;
