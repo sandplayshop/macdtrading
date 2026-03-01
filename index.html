@@ -11,6 +11,9 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuWIm+i9iee6gOaZgum6uuiwsOatueitpOakrCIsCiAgInNob3J0X25hbWUiIjogIuWIm+i9iee6gCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZjRmN2Y5IiwKICAidGhlbWVfY29sb3IiOiAiIzFhNzNlOCIKfQ==">
 
+    <!-- 引入 html2canvas 以支援手機端儲存圖片 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
         :root {
             --primary: #1a73e8;
@@ -71,19 +74,18 @@
 
         /* 按鈕區 */
         .actions { display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; align-items: flex-end; }
-        .btn { padding: 10px 25px; border-radius: 25px; font-weight: bold; cursor: pointer; border: none; font-size: 13px; background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(26,115,232,0.3); transition: 0.2s; }
-        .btn:active { transform: scale(0.98); }
+        .btn { padding: 10px 25px; border-radius: 25px; font-weight: bold; cursor: pointer; border: none; font-size: 13px; background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(26,115,232,0.3); transition: 0.2s; -webkit-appearance: none; }
+        .btn:active { transform: scale(0.95); opacity: 0.8; }
         .btn-outline { background: white; color: var(--primary); border: 1px solid var(--primary); }
         .btn-success { background: var(--down-green); box-shadow: 0 4px 10px rgba(56, 142, 60, 0.3); }
 
         /* 分頁系統 */
         .tab-container { margin-top: 25px; }
         .tab-buttons { display: flex; gap: 5px; border-bottom: 2px solid var(--border); margin-bottom: 15px; }
-        .tab-btn { padding: 12px 24px; border: none; background: #eee; border-radius: 12px 12px 0 0; cursor: pointer; font-weight: 900; color: var(--text-sub); transition: 0.3s; font-size: 0.9rem; }
+        .tab-btn { padding: 12px 24px; border: none; background: #eee; border-radius: 12px 12px 0 0; cursor: pointer; font-weight: 900; color: var(--text-sub); transition: 0.3s; font-size: 0.9rem; -webkit-tap-highlight-color: transparent; }
         .tab-btn.active { background: var(--primary); color: white; box-shadow: 0 -2px 10px rgba(26, 115, 232, 0.2); }
         .tab-content { display: none; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* 商品分析卡片樣式 */
         .report-section { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 20px; padding-bottom: 30px; }
@@ -92,7 +94,6 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.07); position: relative; border-top: 6px solid var(--primary); 
         }
         .report-card .close-btn { position: absolute; top: 12px; right: 12px; cursor: pointer; color: #bbb; font-size: 22px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #f8f8f8; }
-        .report-card .close-btn:hover { background: #fee; color: #f00; }
         .report-card h4 { margin: 0 0 5px 0; color: var(--primary); font-size: 1.3rem; font-weight: 900; }
         .report-card .timestamp { font-size: 0.75rem; color: #aaa; margin-bottom: 15px; display: block; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
         .report-card .info-block { font-size: 0.85rem; margin-bottom: 12px; line-height: 1.6; }
@@ -101,15 +102,13 @@
         .report-card .linkage-box { background: #f8faff; border: 1px solid #e1e9f5; border-radius: 10px; padding: 12px; margin-bottom: 15px; font-size: 0.75rem; }
         .report-card .summary-box { background: #fdfdfd; padding: 14px; border-radius: 12px; border: 1px solid #f0f0f0; margin-bottom: 15px; }
         .report-card .summary-item { margin-bottom: 8px; border-bottom: 1px dashed #e5e5e5; padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
-        .report-card .summary-item:last-child { border-bottom: none; margin-bottom: 0; }
 
-        .report-card .master-legend, .footer-notes { background: #fffdf5; border: 1px solid #ffecb3; border-radius: 10px; padding: 15px; font-size: 0.75rem; line-height: 1.6; color: #5d4037; }
+        .report-card .master-legend { background: #fffdf5; border: 1px solid #ffecb3; border-radius: 10px; padding: 12px; font-size: 0.72rem; line-height: 1.6; color: #5d4037; }
         .legend-sec { margin-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 10px; }
-        .legend-sec:last-child { border-bottom: none; margin-bottom: 0; }
-        .legend-title { font-weight: 900; color: #795548; display: block; margin-bottom: 6px; font-size: 0.85rem; }
+        .legend-title { font-weight: 900; color: #795548; display: block; margin-bottom: 4px; font-size: 0.85rem; }
 
-        .report-footer-disclaimer, .app-attribution { margin-top: 15px; font-size: 0.7rem; color: #999; line-height: 1.6; border-top: 1px solid #eee; padding-top: 10px; text-align: center; }
-        .report-actions { display: flex; gap: 8px; margin-top: 15px; }
+        .report-footer-disclaimer { margin-top: 15px; font-size: 0.7rem; color: #999; line-height: 1.6; border-top: 1px solid #eee; padding-top: 10px; text-align: center; }
+        .report-actions { display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
 
         /* 表格樣式 */
         .result-box { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #fff; margin-bottom: 15px; }
@@ -123,21 +122,16 @@
         .tag-up { color: #b71c1c; background: #ffebee; border: 1px solid #ef9a9a; } 
         .tag-down { color: #1b5e20; background: #e8f5e9; border: 1px solid #a5d6a7; }
 
-        /* 配色標籤 */
         .red-text { color: #ff0000; font-weight: bold; }
         .green-text { color: var(--down-green); font-weight: bold; }
         .blue-text { color: var(--primary); font-weight: bold; }
 
-        .skool-link { color: var(--primary); text-decoration: underline; font-weight: bold; }
-
-        /* 列印專用樣式 */
         @media print {
             body { background: white; padding: 0; }
             .container { box-shadow: none; width: 100%; max-width: 100%; margin: 0; padding: 0; }
-            header, .core-concept-card, .dashboard, .config-panel, .actions, .tab-buttons, .app-attribution, .close-btn, .report-actions { display: none !important; }
+            header, .core-concept-card, .dashboard, .config-panel, .actions, .tab-buttons, .app-attribution, .close-btn, .report-actions, .footer-notes { display: none !important; }
             .tab-content { display: none !important; }
             #contentReport { display: block !important; }
-            .tab-content.active { display: block !important; }
             .report-card { border: 2px solid #000; break-inside: avoid; margin-bottom: 20px; box-shadow: none; width: 100%; }
         }
     </style>
@@ -147,10 +141,9 @@
 <div class="container">
     <header>
         <h1>牛轉門：波動・時空導航儀</h1>
-        <div class="description">三層級聯動監測 | 門控轉態偵測 | 專業報告系統</div>
+        <div class="description">三層級聯動監測 | 門控轉態偵測 | 專業報告輸出</div>
     </header>
 
-    <!-- 技術核心導讀區 -->
     <div class="core-concept-card">
         <h3>🔑 牛軍開門技術核心：7字訣・門・波動</h3>
         <div class="concept-grid">
@@ -160,7 +153,6 @@
         </div>
     </div>
 
-    <!-- 極端行情轉折警示區 -->
     <div id="extremeAlert" class="alert-panel">
         <div id="alertTitle" class="alert-title"></div>
         <div id="alertBody" class="alert-body"></div>
@@ -178,7 +170,7 @@
         </div>
         <div class="meter-card">
             <div class="meter-title">絕對防禦聯動 (Risk Control)</div>
-            <div id="defensePoint" class="meter-value" style="color: #333; font-size: 0.8rem; text-align: left; padding-left: 10px;">請點擊推演顯示三層級狀態</div>
+            <div id="defensePoint" class="meter-value" style="color: #333; font-size: 0.8rem; text-align: left; padding-left: 10px;">請點擊推演顯示聯動狀態</div>
         </div>
     </div>
 
@@ -207,7 +199,6 @@
         <button class="btn btn-success" onclick="generateReportCard()">產出分析卡片</button>
     </div>
 
-    <!-- 分頁導覽區 -->
     <div class="tab-container">
         <div class="tab-buttons">
             <button class="tab-btn active" id="tabBtnTable" onclick="switchTab('table')">📊 數據推演表</button>
@@ -231,35 +222,15 @@
                 </div>
             </div>
             
-            <!-- 放在數據推演表分頁的精華內容 -->
             <div class="footer-notes">
                 <div class="concept-grid">
                     <div class="legend-sec">
                         <span class="legend-title">⚡ 能量等級說明</span>
-                        1. <b>極多</b>：全週期向上共振，能量爆發。<br>
-                        2. <b>強多</b>：正弦相位 (1, 3, B) 主導，回測買點。<br>
-                        3. <b>多空關鍵</b>：臨界點，觀察小齒輪引動。<br>
-                        4. <b>空誘多</b>：B段反彈，屬於餘弦修正，準備放空。<br>
-                        5. <b>空頭</b>：餘弦相位 (2, A, C) 主導，重力加速。
+                        1. <b>極多</b>：能量爆發 | 2. <b>強多</b>：主導趨勢 | 3. <b>多空關鍵</b>：臨界點 | 4. <b>空誘多</b>：B段反彈 | 5. <b>空頭</b>：重力加速
                     </div>
                     <div class="legend-sec">
                         <span class="legend-title">🚪 門控機理說明</span>
-                        🔓 <b>開門發動</b>：價格站上 W 門或跌破 M 門，空間開啟。<br>
-                        🔄 <b>測門買點</b>：標籤 2 回測不破門，是牛轉門最精確買點。<br>
-                        ⚠️ <b>B反彈找空點</b>：B 段反彈受阻於門，是誘多找空機會。<br>
-                        🔒 <b>關門撤退</b>：價格縮回門內，代表波動結束，應立即離場。
-                    </div>
-                    <div class="legend-sec">
-                        <span class="legend-title">🏷️ 標籤屬性 (紅漲綠跌)</span>
-                        1, 3, B：正弦相位。代表向上發散、回升或反彈能量。<br>
-                        2, A, C：餘弦相位。代表向下修正、初跌或主跌重力。<br>
-                        <b>收盤確認：所有判斷必須以該時框收盤價為準。</b>
-                    </div>
-                    <div class="legend-sec">
-                        <span class="legend-title">📈 導航層級定位</span>
-                        <b>月/週/日</b>：宏觀重力，定義時代之門。<br>
-                        <b>4H/60m</b>：波段標竿，判定當日強弱。<br>
-                        <b>15m/5m/1m</b>：進場板機，捕捉引動瞬間。
+                        🔓 <b>開門看多</b>：動能開始 | 🔄 <b>測門買點</b>：2回測不破 | ⚠️ <b>B反彈找空</b>：受阻誘多 | 🔒 <b>關門撤退</b>：波動結束
                     </div>
                 </div>
             </div>
@@ -274,8 +245,7 @@
     </div>
 
     <div class="app-attribution">
-        程式撰寫：六甲豆子<br>
-        ⚠️ 注意：個人交易心得整理，不構成投資建議；教學請至 <a href="https://www.skool.com/niujun-open-the-door/about?ref=35d3add8e5c64bb58850c92c283d1ba4" target="_blank" class="skool-link">SKOOL 技術原創者</a> 學習
+        程式撰寫：六甲豆子 | 教學請至 <a href="https://www.skool.com/niujun-open-the-door/about?ref=35d3add8e5c64bb58850c92c283d1ba4" target="_blank" class="skool-link">SKOOL 技術原創者</a> 學習
     </div>
 </div>
 
@@ -394,7 +364,6 @@
                 if ([0, 2, 4].includes(curIdx)) totalPower += m.weight;
             });
 
-            // 實戰解析邏輯
             let analysis = "";
             const currentRefTag = rowTags[refIdx];
             const refTf = matrix[refIdx];
@@ -424,7 +393,7 @@
         if (isAll3) {
             panel.style.display = 'block'; panel.style.borderColor = '#f00';
             document.getElementById('alertTitle').innerHTML = `<span class="red-text">⚠️ 極陽反轉警告：33333 結構</span>`;
-            document.getElementById('alertBody').innerHTML = `大週期極盛。關門力即將爆發。`;
+            document.getElementById('alertBody').innerHTML = `大週期極盛。關門力即將如同 7字訣向下爆發。`;
             let closedCount = 0; [5,6,7].forEach(i => { if (matrix[i].gateStatus === 'CLOSED') closedCount++; });
             document.getElementById('alertCounter').innerHTML = `微觀門關閉數：${closedCount}`;
         } else if (isAllC) {
@@ -436,6 +405,33 @@
         } else panel.style.display = 'none';
     }
 
+    // 儲存卡片為圖片功能 (支援手機)
+    async function saveAsImage(cardId) {
+        const card = document.getElementById(cardId);
+        // 暫時隱藏操作按鈕以免入鏡
+        const actions = card.querySelector('.report-actions');
+        const closeBtn = card.querySelector('.close-btn');
+        actions.style.display = 'none';
+        closeBtn.style.display = 'none';
+        
+        try {
+            const canvas = await html2canvas(card, {
+                scale: 2, // 提高解析度
+                useCORS: true,
+                backgroundColor: "#ffffff"
+            });
+            const link = document.createElement('a');
+            link.download = `牛轉門分析_${new Date().getTime()}.png`;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        } catch (err) {
+            console.error("圖片產出失敗", err);
+        } finally {
+            actions.style.display = 'flex';
+            closeBtn.style.display = 'flex';
+        }
+    }
+
     function generateReportCard() {
         const prod = document.getElementById('productName').value || "未命名商品";
         const time = new Date().toLocaleString();
@@ -443,12 +439,12 @@
         const scenario = document.getElementById('scenarioText').innerHTML;
         const refIdx = document.getElementById('refLevel').selectedIndex;
         const refName = document.getElementById('refLevel').options[refIdx].text;
+        const cardId = 'card_' + new Date().getTime();
         
         let matrix = timeframes.map(tf => ({
             id: tf.id, name: tf.name, wave: document.getElementById(`wave_${tf.id}`).value,
             gateType: document.getElementById(`gateType_${tf.id}`).value,
-            gateStatus: document.getElementById(`gateStatus_${tf.id}`).value,
-            mantra: document.getElementById(`mantra_${tf.id}`).value
+            gateStatus: document.getElementById(`gateStatus_${tf.id}`).value
         }));
 
         const macroInfo = [0, 1, 2].map(i => getGateStatusHtml(matrix[i])).join('<br>');
@@ -460,11 +456,11 @@
             const tagIdx = labelMap[wave];
             const gStatus = getGateStatus(tagIdx);
             const isUp = [0, 2, 4].includes(tagIdx);
-            const pLevel = getPowerLevel(isUp ? 75 : 25); 
-            summaryList += `<div class="summary-item"><b class="blue-text">${tf.name}:</b><span style="font-size:0.75rem;">${gStatus.txt} | ${pLevel.name}</span></div>`;
+            summaryList += `<div class="summary-item"><b class="blue-text">${tf.name}:</b><span style="font-size:0.75rem;">${gStatus.txt} | 標籤 ${wave}</span></div>`;
         });
 
         const card = document.createElement('div');
+        card.id = cardId;
         card.className = 'report-card';
         card.innerHTML = `
             <span class="close-btn" onclick="this.parentElement.remove(); updateBadge();">×</span>
@@ -485,37 +481,23 @@
             <div class="master-legend">
                 <div class="legend-sec">
                     <span class="legend-title">⚡ 能量等級說明</span>
-                    1. 極多：全週期向上共振，能量爆發。<br>
-                    2. 強多：正弦相位 (1, 3, B) 主導，回測買點。<br>
-                    3. 多空關鍵：臨界點，觀察小齒輪引動。<br>
-                    4. 空誘多：B段反彈，屬於餘弦修正，準備放空。<br>
-                    5. 空頭：餘弦相位 (2, A, C) 主導，重力加速。
+                    1. 極多：能量爆發 | 2. 強多：回測買點 | 3. 多空關鍵 | 4. 空誘多 | 5. 空頭
                 </div>
                 <div class="legend-sec">
                     <span class="legend-title">🚪 門控機理說明</span>
-                    🔓 開門發動：價格站上 W 門或跌破 M 門，空間開啟。<br>
-                    🔄 測門買點：標籤 2 回測不破門，是牛轉門最精確買點。<br>
-                    ⚠️ B反彈找空點：B 段反彈受阻於門，是誘多找空機會。<br>
-                    🔒 關門撤退：價格縮回門內，代表波動結束，應立即離場。
-                </div>
-                <div class="legend-sec">
-                    <span class="legend-title">🏷️ 標籤屬性 (紅漲綠跌)</span>
-                    1, 3, B：正弦相位。代表向上發散、回升或反彈能量。<br>
-                    2, A, C：餘弦相位。代表向下修正、初跌或主跌重力。<br>
-                    <b>收盤確認：所有判斷必須以該時框收盤價為準。</b>
+                    🔓 開門發動：空間開啟 | 🔄 測門買點：回測不破 | 🔒 關門撤退：波動結束
                 </div>
                 <div class="legend-sec">
                     <span class="legend-title">📈 導航層級定位</span>
-                    月/週/日：宏觀重力，定義時代之門。<br>
-                    4H/60m：波段標竿，判定當日強弱。<br>
-                    15m/5m/1m：進場板機，捕捉引動瞬間。
+                    月/週/日：宏觀重力 | 4H/60m：波段標竿 | 15m/5m/1m：進場板機
                 </div>
             </div>
             <div class="report-footer-disclaimer">
-                程式撰寫：六甲豆子 | 教學請至 <a href="https://www.skool.com/niujun-open-the-door/about?ref=35d3add8e5c64bb58850c92c283d1ba4" target="_blank">SKOOL 技術原創者</a> 學習
+                程式撰寫：六甲豆子 | 教學請至 SKOOL 技術原創者 學習
             </div>
             <div class="report-actions">
-                <button class="btn btn-outline" style="padding:6px 12px; font-size:11px;" onclick="window.print()">🖨️ 列印分析報告 / 另存PDF</button>
+                <button class="btn btn-success" style="padding:8px 15px;" onclick="saveAsImage('${cardId}')">📸 儲存為圖片 (最推薦手機版)</button>
+                <button class="btn btn-outline" style="padding:8px 15px;" onclick="window.print()">🖨️ 列印 / PDF (電腦版適用)</button>
             </div>
         `;
         document.getElementById('reportGallery').prepend(card);
