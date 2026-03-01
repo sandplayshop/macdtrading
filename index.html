@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1565c0">
-    <title>牛轉門：時空導航儀 (終極完全美化版)</title>
+    <title>牛轉門：時空導航儀</title>
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuWIm+i9iee6gOaZgum6uuiwsOatueitpOakrCIsCiAgInNob3J0X25hbWUiIjogIuWIm+i9iee6gCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZjRmN2Y5IiwKICAidGhlbWVfY29sb3IiOiAiIzFhNzNlOCIKfQ==">
@@ -31,106 +31,92 @@
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif; background: var(--bg); padding: 12px; color: var(--text-main); margin: 0; line-height: 1.5; }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif; background: var(--bg); padding: 12px; color: var(--text-main); margin: 0; line-height: 1.5; overflow-x: hidden; }
 
-        .container { width: 100%; max-width: 1650px; margin: 0 auto; background: var(--card-bg); padding: 25px; border-radius: 36px; box-shadow: var(--shadow); }
+        .container { width: 100%; max-width: 1650px; margin: 0 auto; background: var(--card-bg); padding: clamp(15px, 4vw, 25px); border-radius: clamp(15px, 5vw, 36px); box-shadow: var(--shadow); }
         
         header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #f1f3f4; padding-bottom: 20px; }
-        header h1 { color: var(--primary); margin: 0; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 900; letter-spacing: -1.5px; }
-        header .description { color: var(--text-sub); font-size: 1rem; margin-top: 8px; font-weight: 700; letter-spacing: 2px; }
+        header h1 { color: var(--primary); margin: 0; font-size: clamp(1.4rem, 6vw, 2.8rem); font-weight: 900; letter-spacing: -1.5px; }
+        header .description { color: var(--text-sub); font-size: clamp(0.85rem, 2vw, 1rem); margin-top: 8px; font-weight: 700; letter-spacing: 1px; }
 
-        /* 技術核心導讀區 */
-        .core-concept-v4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-bottom: 35px; }
-        .concept-card { background: linear-gradient(145deg, #ffffff, #f1f7ff); border: 1px solid #e1f5fe; border-radius: 24px; padding: 25px; display: flex; align-items: flex-start; gap: 20px; box-shadow: 0 6px 18px rgba(0,0,0,0.03); transition: transform 0.3s; }
-        .concept-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 12px 25px rgba(21, 101, 192, 0.1); }
-        .concept-card .icon { font-size: 2.5rem; background: var(--primary-light); width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; border-radius: 20px; flex-shrink: 0; }
-        .concept-card .title { font-weight: 900; font-size: 1.25rem; color: var(--primary); margin-bottom: 10px; border-bottom: 2px solid #e1f5fe; padding-bottom: 5px; display: block; }
-        .concept-card .desc { font-size: 0.9rem; color: var(--text-main); margin: 0; font-weight: 500; line-height: 1.8; }
+        /* 技術核心導讀區 - RWD */
+        .core-concept-v4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 20px; margin-bottom: 35px; }
+        .concept-card { background: linear-gradient(145deg, #ffffff, #f1f7ff); border: 1px solid #e1f5fe; border-radius: 24px; padding: clamp(15px, 3vw, 25px); display: flex; align-items: flex-start; gap: clamp(10px, 3vw, 20px); box-shadow: 0 6px 18px rgba(0,0,0,0.03); transition: transform 0.3s; }
+        .concept-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .concept-card .icon { font-size: clamp(1.8rem, 4vw, 2.5rem); background: var(--primary-light); width: clamp(50px, 8vw, 65px); height: clamp(50px, 8vw, 65px); display: flex; align-items: center; justify-content: center; border-radius: 20px; flex-shrink: 0; }
+        .concept-card .title { font-weight: 900; font-size: clamp(1.1rem, 3vw, 1.25rem); color: var(--primary); margin-bottom: 10px; border-bottom: 2px solid #e1f5fe; padding-bottom: 5px; display: block; }
+        .concept-card .desc { font-size: clamp(0.8rem, 2.5vw, 0.9rem); color: var(--text-main); margin: 0; font-weight: 500; line-height: 1.8; }
 
-        /* 儀表板 */
-        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 35px; }
-        .meter-card { background: #fff; border: 1.5px solid var(--border-color); border-radius: 24px; padding: 25px; min-height: 180px; display: flex; flex-direction: column; justify-content: center; border-bottom: 8px solid var(--primary); transition: 0.4s; }
+        /* 儀表板 - RWD */
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 20px; margin-bottom: 35px; }
+        .meter-card { background: #fff; border: 1.5px solid var(--border-color); border-radius: 24px; padding: clamp(15px, 3vw, 25px); min-height: 140px; display: flex; flex-direction: column; justify-content: center; border-bottom: 8px solid var(--primary); transition: 0.4s; }
         .meter-card.up { border-bottom-color: var(--up-red); }
         .meter-card.down { border-bottom-color: var(--down-green); }
         .meter-title { font-size: 0.9rem; font-weight: 800; color: var(--text-sub); margin-bottom: 15px; text-transform: uppercase; }
-        .meter-value { font-size: 1.1rem; font-weight: 900; color: var(--text-dark); line-height: 1.8; }
+        .meter-value { font-size: clamp(0.95rem, 3vw, 1.1rem); font-weight: 900; color: var(--text-dark); line-height: 1.6; }
 
-        /* 配置區表格化 */
-        .config-panel { background: #fcfdfe; padding: 25px; border-radius: 28px; border: 2px solid #eceff1; margin-bottom: 35px; overflow-x: auto; }
-        .config-grid { min-width: 1000px; }
-        .config-header { display: grid; grid-template-columns: 120px 1.5fr 1.5fr 2fr 2fr; gap: 15px; padding-bottom: 18px; border-bottom: 4px solid var(--primary); text-align: center; }
-        .config-header span { font-weight: 900; font-size: 15px; color: var(--primary); }
-        .level-row { display: grid; grid-template-columns: 120px 1.5fr 1.5fr 2fr 2fr; gap: 15px; align-items: center; padding: 15px 0; border-bottom: 1px solid #f1f5f9; }
+        /* 配置面板表格化與 RWD 適應 */
+        .config-panel { background: #fcfdfe; padding: clamp(15px, 3vw, 25px); border-radius: 28px; border: 2px solid #eceff1; margin-bottom: 35px; }
+        .config-grid { width: 100%; }
+        .config-header { display: grid; grid-template-columns: 100px 1fr 1fr 1.5fr 1.5fr; gap: 15px; padding-bottom: 18px; border-bottom: 4px solid var(--primary); text-align: center; }
+        .config-header span { font-weight: 900; font-size: 14px; color: var(--primary); }
+        .level-row { display: grid; grid-template-columns: 100px 1fr 1fr 1.5fr 1.5fr; gap: 15px; align-items: center; padding: 15px 0; border-bottom: 1px solid #f1f5f9; }
         .level-label { font-weight: 900; font-size: 18px; color: var(--text-dark); text-align: center; }
+
+        @media (max-width: 1024px) {
+            .config-header { display: none; }
+            .level-row { grid-template-columns: 1fr 1fr; gap: 10px; border-bottom: 3px solid #eee; padding: 20px 10px; }
+            .level-label { grid-column: span 2; font-size: 1.3rem; background: var(--primary-light); color: var(--primary); padding: 8px; border-radius: 12px; margin-bottom: 10px; }
+            .input-item { display: flex; flex-direction: column; gap: 5px; }
+            .input-item::before { content: attr(data-label); font-size: 11px; font-weight: 900; color: var(--text-sub); text-align: left; padding-left: 5px; }
+        }
 
         /* 統一欄位 CSS 格式 */
         select, input { 
-            width: 100%; 
-            height: 48px;
-            padding: 0 14px; 
-            border-radius: 15px; 
-            border: 2px solid #e2e8f0; 
-            font-size: 14px; 
-            transition: all 0.2s ease; 
-            background: #fff; 
-            text-align: center; 
-            font-weight: 800; 
-            color: #333;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            width: 100%; height: 48px; padding: 0 14px; border-radius: 15px; border: 2px solid #e2e8f0; font-size: 14px; transition: all 0.2s ease; background: #fff; text-align: center; font-weight: 800; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        select:focus, input:focus { 
-            border-color: var(--primary); 
-            box-shadow: 0 0 0 4px var(--primary-light); 
-            outline: none;
-        }
-        select:hover, input:hover {
-            border-color: var(--primary);
-            background: #f8fbff;
-        }
+        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-light); outline: none; }
+        select:hover, input:hover { border-color: var(--primary); background: #f8fbff; }
 
         /* 按鈕系統 */
         .actions { display: flex; gap: 15px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap; }
-        .btn { padding: 16px 40px; border-radius: 20px; font-weight: 900; cursor: pointer; border: none; transition: 0.3s; font-size: 15px; box-shadow: 0 8px 20px rgba(21, 101, 192, 0.15); }
+        .btn { padding: 16px clamp(20px, 5vw, 40px); border-radius: 20px; font-weight: 900; cursor: pointer; border: none; transition: 0.3s; font-size: 15px; box-shadow: 0 8px 20px rgba(21, 101, 192, 0.15); flex: 1 1 auto; min-width: 150px; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-success { background: var(--down-green); color: white; }
         .btn-outline { background: white; color: var(--primary); border: 3px solid var(--primary); }
 
         /* 分頁切換 */
-        .tab-buttons { display: flex; gap: 15px; border-bottom: 4px solid #eee; margin-bottom: 30px; }
-        .tab-btn { padding: 18px 45px; border: none; background: transparent; cursor: pointer; font-weight: 900; color: var(--text-sub); font-size: 1.2rem; position: relative; }
+        .tab-buttons { display: flex; gap: 10px; border-bottom: 4px solid #eee; margin-bottom: 30px; overflow-x: auto; -ms-overflow-style: none; scrollbar-width: none; }
+        .tab-buttons::-webkit-scrollbar { display: none; }
+        .tab-btn { padding: 15px 30px; border: none; background: transparent; cursor: pointer; font-weight: 900; color: var(--text-sub); font-size: clamp(1rem, 2.5vw, 1.2rem); position: relative; transition: 0.3s; white-space: nowrap; }
         .tab-btn.active { color: var(--primary); }
         .tab-btn.active::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 6px; background: var(--primary); border-radius: 6px; }
         .tab-content { display: none; animation: fadeIn 0.5s ease; }
         .tab-content.active { display: block; }
 
-        /* 數據推演表 */
+        /* 數據推演表 - RWD 滾動 */
         .result-box { border: 2px solid var(--border-color); border-radius: 28px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
-        .scroll-area { max-height: 70vh; overflow: auto; }
-        table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; min-width: 1400px; }
-        thead th { position: sticky; top: 0; background: #f8fafc; z-index: 20; padding: 22px 12px; border-bottom: 5px solid var(--primary); font-weight: 900; color: var(--primary); text-align: center; }
-        td { padding: 18px 12px; text-align: center; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
-        .tag-cell { font-weight: 900; border-radius: 12px; padding: 8px 16px; display: inline-block; min-width: 45px; box-shadow: 0 4px 8px rgba(0,0,0,0.12); font-size: 15px; }
+        .scroll-area { max-height: 70vh; overflow: auto; width: 100%; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; min-width: 1400px; }
+        thead th { position: sticky; top: 0; background: #f8fafc; z-index: 20; padding: 15px 10px; border-bottom: 5px solid var(--primary); font-weight: 900; color: var(--primary); text-align: center; }
+        td { padding: 12px 10px; text-align: center; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+        .tag-cell { font-weight: 900; border-radius: 12px; padding: 8px 12px; display: inline-block; min-width: 40px; box-shadow: 0 4px 8px rgba(0,0,0,0.12); font-size: 13px; }
         .tag-up { color: #fff; background: var(--up-red); } 
         .tag-down { color: #fff; background: var(--down-green); }
 
-        /* 性質色彩標籤 */
+        /* 商品分析卡 */
+        .report-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 850px), 1fr)); gap: 30px; }
+        .report-card { background: #fff; border-radius: clamp(20px, 5vw, 42px); padding: clamp(20px, 5vw, 60px); border: 2px solid #e2e8f0; box-shadow: 0 35px 100px rgba(0,0,0,0.15); position: relative; border-top: clamp(10px, 3vw, 25px) solid var(--primary); }
+        .report-card .part-box { background: #f9fbff; border-radius: 24px; padding: clamp(15px, 4vw, 40px); border: 2px solid #edf2f7; margin-bottom: 30px; }
+        .report-card .part-header { font-weight: 900; font-size: clamp(1.2rem, 3vw, 1.8rem); margin-bottom: 25px; color: #1e293b; border-left: 10px solid var(--primary); padding: 10px 20px; background: #eef2ff; border-radius: 0 15px 15px 0; }
+        .report-card .summary-item { margin-bottom: 30px; border-bottom: 2px dashed #cbd5e0; padding-bottom: 25px; }
+        
         .red-text { color: var(--up-red) !important; font-weight: 800; }
         .green-text { color: var(--down-green) !important; font-weight: 800; }
         .blue-text { color: var(--primary) !important; font-weight: 800; }
 
-        /* 商品分析卡 */
-        .report-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(850px, 1fr)); gap: 45px; }
-        .report-card { background: #fff; border-radius: 42px; padding: 60px; border: 2px solid #e2e8f0; box-shadow: 0 35px 100px rgba(0,0,0,0.15); position: relative; border-top: 25px solid var(--primary); }
-        .report-card .part-box { background: #f9fbff; border-radius: 28px; padding: 40px; border: 2px solid #edf2f7; margin-bottom: 40px; }
-        .report-card .part-header { font-weight: 900; font-size: 1.8rem; margin-bottom: 30px; color: #1e293b; border-left: 15px solid var(--primary); padding: 15px 25px; background: #eef2ff; border-radius: 0 20px 20px 0; }
-        .report-card .summary-item { margin-bottom: 35px; border-bottom: 2px dashed #cbd5e0; padding-bottom: 30px; }
-        .report-card .summary-item:last-child { border-bottom: none; }
-        
-        .key-gate-mark { background: #fff7ed; color: #c2410c; font-size: 0.9rem; padding: 6px 18px; border-radius: 10px; border: 2.5px solid #ffedd5; font-weight: 900; display: inline-block; margin-top: 12px; }
-
-        .report-footer-disclaimer { margin-top: 30px; padding: 25px; border-top: 2px solid #f1f3f4; font-size: 0.95rem; line-height: 1.8; color: #64748b; }
-        .close-btn { position: absolute; top: 25px; right: 25px; font-size: 35px; color: #cbd5e0; cursor: pointer; transition: 0.3s; }
-        .close-btn:hover { color: var(--up-red); transform: rotate(90deg); }
+        .report-footer-disclaimer { margin-top: 20px; padding: 20px; border-top: 2px solid #f1f3f4; font-size: 0.9rem; line-height: 1.8; color: #64748b; }
+        .close-btn { position: absolute; top: clamp(10px, 3vw, 25px); right: clamp(10px, 3vw, 25px); font-size: 35px; color: #cbd5e0; cursor: pointer; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -140,7 +126,7 @@
             header, .core-concept-v4, .dashboard, .config-panel, .actions, .tab-buttons, .app-attribution, .footer-notes { display: none !important; }
             .tab-content { display: none !important; }
             #contentReport { display: block !important; }
-            .report-card { border: 6px solid #000; padding: 40px; break-inside: avoid; border-top: 40px solid #000; box-shadow: none; }
+            .report-card { border: 6px solid #000; padding: 30px; break-inside: avoid; border-top: 40px solid #000; box-shadow: none; }
         }
     </style>
 </head>
@@ -161,7 +147,7 @@
                 <div class="desc">
                     - <span class="red-text">向上趨勢</span>：1 <span class="red-text">起漲</span> → 2 回測 → 3 <span class="red-text">發動</span> <br>
                     - <span class="green-text">向下趨勢</span>：A <span class="green-text">起跌</span> → B 反彈 → C <span class="green-text">主跌</span> <br>
-                    - 波動不是<span class="red-text">向上</span>就是<span class="green-text">向下</span>；目標是辨識相位與慣性延續。
+                    - 波動不是<span class="red-text">向上</span>就是<span class="green-text">向下</span>；辨識相位與慣性延續。
                 </div>
             </div>
         </div>
@@ -180,11 +166,8 @@
             <div class="text-wrap">
                 <span class="title">定門控（W / M）</span>
                 <div class="desc">
-                    - 門是價格的物理邊界：<span class="red-text">開門</span>＝新空間被打開；<span class="green-text">關門</span>＝原趨勢空間被關閉。 <br>
-                    - <b>規則</b>：<br>
-                    &nbsp;&nbsp;• 收盤價站上 <b>W 門</b> → 看多（啟動 123）<br>
-                    &nbsp;&nbsp;• 收盤價跌破 <b>M 門</b> → 看空（啟動 ABC）<br>
-                    &nbsp;&nbsp;• <span class="red-text">門上不做空</span>、<span class="green-text">門下不做多</span>；一切以「該時框收盤」確認有效。
+                    - 門是物理邊界：<span class="red-text">開門</span>＝新空間打開；<span class="green-text">關門</span>＝原趨勢空間關閉。 <br>
+                    - <b>規則</b>：站上 <b>W 門</b> → 看多；跌破 <b>M 門</b> → 看空。<span class="red-text">門上不做空</span>、<span class="green-text">門下不做多</span>。
                 </div>
             </div>
         </div>
@@ -218,21 +201,18 @@
 
     <!-- 操作區 -->
     <div class="actions">
-        <div class="input-item" style="min-width:260px;">
-            <label style="font-size:13px; font-weight:900; display:block; text-align:center; margin-bottom:8px;">商品名稱標識</label>
+        <div class="input-item" style="min-width:260px;" data-label="商品名稱標識">
             <input type="text" id="productName" placeholder="例如：BTC/USDT">
         </div>
         <button class="btn btn-outline" onclick="loadExample()">載入範例邏輯 (333A3CC1)</button>
-        <div class="input-item" style="min-width:240px;">
-            <label style="font-size:13px; font-weight:900; display:block; text-align:center; margin-bottom:8px;">核心觀察基準</label>
+        <div class="input-item" style="min-width:240px;" data-label="核心觀察基準">
             <select id="refLevel">
                 <option value="0">月級別</option><option value="1">週級別</option><option value="2">日級別</option>
                 <option value="3" selected>4H級別</option><option value="4">60M級別</option><option value="5">15M級別</option>
                 <option value="6">5M級別</option><option value="7">1M級別</option>
             </select>
         </div>
-        <div class="input-item" style="min-width:140px;">
-            <label style="font-size:13px; font-weight:900; display:block; text-align:center; margin-bottom:8px;">未來預演步數</label>
+        <div class="input-item" style="min-width:140px;" data-label="未來預演步數">
             <input type="number" id="stepCount" value="60">
         </div>
         <button class="btn btn-primary" onclick="runSystemAnalysis()">執行多週期推演</button>
@@ -312,12 +292,11 @@
         const isUp = [0, 2, 4].includes(tagIdx);
         const col = isUp ? "red-text" : "green-text";
         if (totalPower >= 85) return `🔥 <b class="${col}">極多共振：</b><span class="red-text">開門</span>力強烈加總，啟動全週期 123 <span class="red-text">向上發動</span>。`;
-        if (totalPower <= 15) return `📉 <b class="${col}">空頭主導：</b><span class="green-text">關門</span>重力強烈加總，啟動全週期 ABC <span class="green-text">起跌主跌</span>。`;
-        if (tagIdx === 1) return `🔄 <b class="${col}">測門買點：</b>${tfName}級 2 回測，收盤守住 W 門即為精確買點。`;
+        if (totalPower <= 15) return `📉 <b class="${col}">空頭主導：</b><span class="green-text">關門</span>重力強烈加總，啟動全週期 ABC <span class="green-text">起跌下殺</span>。`;
+        if (tagIdx === 1) return `🔄 <b class="${col}">測門買點：</b>${tfName}級 2 回測，收盤守住地板即可參與 <span class="red-text">發動</span>。`;
         return `➡ <b class="${col}">${tfName}級性質演進：</b>監控門控邊界，收盤確認性質。`;
     }
 
-    // --- 空間物理結論 ---
     function getRangeConclusion(m) {
         const w = m.wGate; const m_ = m.mGate;
         if (w === 'OPEN' && m_ === 'OPEN') return "<span class='red-text'>突破門界向上 🚀</span>";
@@ -337,12 +316,12 @@
         const conclusion = getRangeConclusion(mInfo);
 
         const scripts = {
-            '1': `🚀 <b class='red-text'>起漲性質 (1轉2/3)</b>：macd波段從 <span class='red-text'>1</span> 走向 <span class='${colorClass}'>${finalLabel}</span>，觀察(其級別之上,自己及之下級別)關鍵門。結論：${conclusion}`,
-            '2': `⚖️ <b class='blue-text'>轉化臨界 (2轉3/A)</b>：回測位階。macd波段從 <span class='green-text'>2</span> 走向 <span class='${colorClass}'>${finalLabel}</span>。結論：${conclusion}`,
-            '3': `🔥 <b class='red-text'>發動性質 (3轉2/A)</b>：發動位階。macd波段從 <span class='red-text'>3</span> 走向 <span class='${colorClass}'>${finalLabel}</span>。結論：${conclusion}`,
-            'A': `📉 <b class='green-text'>起跌性質 (A轉B)</b>：起跌位階。macd波段從 <span class='green-text'>A</span> 走向 <span class='${colorClass}'>${finalLabel}</span>。結論：${conclusion}`,
-            'B': `⚖️ <b class='blue-text'>轉化臨界 (B轉1/C)</b>：反彈位階。macd波段從 <span class='red-text'>B</span> 走向 <span class='${colorClass}'>${finalLabel}</span>. 結論：${conclusion}`,
-            'C': `💀 <b class='green-text'>主跌性質 (C轉B/1)</b>：下殺位階。macd波段從 <span class='green-text'>C</span> 走向 <span class='${colorClass}'>${finalLabel}</span>。結論：${conclusion}`
+            '1': `🚀 <b class='red-text'>起漲性質 (1轉2/3)</b>：macd波段從 <span class='red-text'>1</span> 走向 <span class='${colorClass}'>${finalLabel}</span>，觀察(之上,自己,之下)關鍵門及動態。結論：${conclusion}`,
+            '2': `⚖️ <b class='blue-text'>轉化臨界 (2轉3/A)</b>：回測位階。macd波段從 <span class='green-text'>2</span> 走向 <span class='${colorClass}'>${finalLabel}</span>，觀察關鍵門動態。結論：${conclusion}`,
+            '3': `🔥 <b class='red-text'>發動性質 (3轉2/A)</b>：發動位階。macd波段從 <span class='red-text'>3</span> 走向 <span class='${colorClass}'>${finalLabel}</span>，觀察關鍵門動態。結論：${conclusion}`,
+            'A': `📉 <b class='green-text'>起跌性質 (A轉B)</b>：起跌位階。macd波段從 <span class='green-text'>A</span> 走向 <span class='${colorClass}'>${finalLabel}</span>，觀察關鍵門動態。結論：${conclusion}`,
+            'B': `⚖️ <b class='blue-text'>轉化臨界 (B轉1/C)</b>：反彈位階。macd波段從 <span class='red-text'>B</span> 走向 <span class='${colorClass}'>${finalLabel}</span>，觀察關鍵門動態. 結論：${conclusion}`,
+            'C': `💀 <b class='green-text'>主跌性質 (C轉B/1)</b>：下殺位階。macd波段從 <span class='green-text'>C</span> 走向 <span class='${colorClass}'>${finalLabel}</span>，觀察關鍵門動態。結論：${conclusion}`
         };
         return scripts[wave] || `➡ macd波段走向 ${finalLabel}，觀察關鍵門。結論：${conclusion}`;
     }
@@ -354,11 +333,11 @@
             const row = document.createElement('div');
             row.className = 'level-row';
             row.innerHTML = `
-                <div class="level-label">${tf.name}</div>
-                <div class="input-item"><select id="wave_${tf.id}"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></div>
-                <div class="input-item"><select id="mantra_${tf.id}"><option value="UP">向上 (紅)</option><option value="DOWN">向下 (綠)</option></select></div>
-                <div class="input-item"><select id="m_gate_${tf.id}"><option value="NONE">1.無門</option><option value="FORMING">2.形成中</option><option value="OPEN">3.已開啟</option><option value="CLOSED">4.已關閉</option></select></div>
-                <div class="input-item"><select id="w_gate_${tf.id}"><option value="NONE">1.無門</option><option value="FORMING">2.形成中</option><option value="OPEN" selected>3.已開啟</option><option value="CLOSED">4.已關閉</option></select></div>
+                <div class="level-label">${tf.name}級別</div>
+                <div class="input-item" data-label="當下波動"><select id="wave_${tf.id}"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></div>
+                <div class="input-item" data-label="當下七字訣"><select id="mantra_${tf.id}"><option value="UP">向上 (紅)</option><option value="DOWN">向下 (綠)</option></select></div>
+                <div class="input-item" data-label="當下 M 門 (天)"><select id="m_gate_${tf.id}"><option value="NONE">1.無門</option><option value="FORMING">2.形成中</option><option value="OPEN">3.已開啟</option><option value="CLOSED">4.已關閉</option></select></div>
+                <div class="input-item" data-label="當下 W 門 (地)"><select id="w_gate_${tf.id}"><option value="NONE">1.無門</option><option value="FORMING">2.形成中</option><option value="OPEN" selected>3.已開啟</option><option value="CLOSED">4.已關閉</option></select></div>
             `;
             panel.appendChild(row);
         });
@@ -432,7 +411,6 @@
             mantra: document.getElementById(`mantra_${tf.id}`).value
         }));
 
-        // --- 分組推算邏輯更新：包含走向描述 ---
         const getGroupDetail = (indices) => {
             return indices.map(i => {
                 const m = matrix[i];
@@ -470,7 +448,7 @@
                 </div>
                 <div class="summary-item" style="border-bottom:none;">
                     <span class="blue-text">核心戰略總結：</span><br>
-                    若基準週期成功<b class='red-text'>開門向上</b>，將啟動全週期 123 <b class='red-text'>起漲發動</b>劇本；若基準受阻確認<b class='green-text'>關門向下</b>，性質由紅轉綠引發重力塌陷。
+                    若基準成功<b class='red-text'>開門向上</b>，將啟動全週期 123 <b class='red-text'>起漲發動</b>；若受阻確認<b class='green-text'>關門向下</b>，性質由紅轉綠引發重力塌陷。
                 </div>
             </div>
         `;
@@ -506,7 +484,7 @@
                 程式演算法撰寫：六甲豆子<br>
                 ⚠️ 注意：個人交易心得整理，不構成投資建議；牛軍開門教學請自行到 <a href="https://www.skool.com/niujun-open-the-door/about?ref=35d3add8e5c64bb58850c92c283d1ba4" target="_blank">SKOOL 技術原創者</a> 學習
             </div>
-            <div class="report-actions" style="margin-top:40px;"><button class="btn btn-primary" onclick="saveAsImage('${cardId}')">📸 儲存報告圖片</button></div>
+            <div class="report-actions" style="margin-top:40px; text-align:center;"><button class="btn btn-primary" onclick="saveAsImage('${cardId}')">📸 儲存報告圖片</button></div>
         `;
         document.getElementById('reportGallery').prepend(card);
         document.getElementById('emptyHint').style.display = 'none';
@@ -517,11 +495,13 @@
         const card = document.getElementById(id);
         const acts = card.querySelector('.report-actions');
         const close = card.querySelector('.close-btn');
-        acts.style.display = 'none'; close.style.display = 'none';
+        if(acts) acts.style.display = 'none'; 
+        if(close) close.style.display = 'none';
         const canvas = await html2canvas(card, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
         const link = document.createElement('a');
         link.download = `牛轉門戰略分析_${Date.now()}.png`; link.href = canvas.toDataURL("image/png"); link.click();
-        acts.style.display = 'flex'; close.style.display = 'flex';
+        if(acts) acts.style.display = 'block'; 
+        if(close) close.style.display = 'block';
     }
 
     function switchTab(tab) {
