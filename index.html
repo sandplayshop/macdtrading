@@ -86,7 +86,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* 商品分析卡片樣式 */
-        .report-section { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; padding-bottom: 30px; }
+        .report-section { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 20px; padding-bottom: 30px; }
         .report-card { 
             background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 20px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.07); position: relative; border-top: 6px solid var(--primary); 
@@ -99,15 +99,20 @@
         .report-card .info-title { font-weight: 900; color: #333; margin-right: 6px; background: #f2f2f2; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-bottom: 4px; }
         
         .report-card .linkage-box { background: #f8faff; border: 1px solid #e1e9f5; border-radius: 10px; padding: 12px; margin-bottom: 15px; font-size: 0.75rem; }
-        .report-card .summary-box { background: #fdfdfd; padding: 14px; border-radius: 12px; border: 1px solid #f0f0f0; }
+        .report-card .summary-box { background: #fdfdfd; padding: 14px; border-radius: 12px; border: 1px solid #f0f0f0; margin-bottom: 15px; }
         .report-card .summary-item { margin-bottom: 8px; border-bottom: 1px dashed #e5e5e5; padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
         .report-card .summary-item:last-child { border-bottom: none; margin-bottom: 0; }
 
-        .report-footer-disclaimer { margin-top: 15px; font-size: 0.7rem; color: #999; line-height: 1.4; border-top: 1px solid #eee; padding-top: 10px; }
+        .report-card .master-legend, .footer-notes { background: #fffdf5; border: 1px solid #ffecb3; border-radius: 10px; padding: 15px; font-size: 0.75rem; line-height: 1.6; color: #5d4037; }
+        .legend-sec { margin-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 10px; }
+        .legend-sec:last-child { border-bottom: none; margin-bottom: 0; }
+        .legend-title { font-weight: 900; color: #795548; display: block; margin-bottom: 6px; font-size: 0.85rem; }
+
+        .report-footer-disclaimer, .app-attribution { margin-top: 15px; font-size: 0.7rem; color: #999; line-height: 1.6; border-top: 1px solid #eee; padding-top: 10px; text-align: center; }
         .report-actions { display: flex; gap: 8px; margin-top: 15px; }
 
         /* 表格樣式 */
-        .result-box { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #fff; }
+        .result-box { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #fff; margin-bottom: 15px; }
         .scroll-area { max-height: 55vh; overflow: auto; position: relative; }
         table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 11px; min-width: 1400px; }
         thead th { position: sticky; top: 0; background: #f8f9fa; z-index: 20; padding: 12px 4px; border-bottom: 2px solid var(--primary); font-weight: 800; }
@@ -123,14 +128,13 @@
         .green-text { color: var(--down-green); font-weight: bold; }
         .blue-text { color: var(--primary); font-weight: bold; }
 
-        .app-attribution { margin-top: 30px; padding: 20px; border-top: 1px solid #eee; text-align: center; color: var(--text-sub); font-size: 0.8rem; line-height: 1.8; }
         .skool-link { color: var(--primary); text-decoration: underline; font-weight: bold; }
 
         /* 列印專用樣式 */
         @media print {
             body { background: white; padding: 0; }
             .container { box-shadow: none; width: 100%; max-width: 100%; margin: 0; padding: 0; }
-            header, .core-concept-card, .dashboard, .config-panel, .actions, .tab-buttons, .app-attribution, .footer-notes, .close-btn, .report-actions { display: none !important; }
+            header, .core-concept-card, .dashboard, .config-panel, .actions, .tab-buttons, .app-attribution, .close-btn, .report-actions { display: none !important; }
             .tab-content { display: none !important; }
             #contentReport { display: block !important; }
             .tab-content.active { display: block !important; }
@@ -219,11 +223,44 @@
                                 <th style="width: 85px;">步數 / 窗口</th>
                                 <th>月</th><th>週</th><th>日</th><th>4H</th><th>60m</th><th>15m</th><th>5m</th><th>1m</th>
                                 <th style="width: 190px;">能量・狀態 / 門控</th>
-                                <th style="min-width:400px;">牛轉門實戰解析</th>
+                                <th style="min-width:400px;">牛轉門實戰解析 (收盤確認為準)</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
                     </table>
+                </div>
+            </div>
+            
+            <!-- 放在數據推演表分頁的精華內容 -->
+            <div class="footer-notes">
+                <div class="concept-grid">
+                    <div class="legend-sec">
+                        <span class="legend-title">⚡ 能量等級說明</span>
+                        1. <b>極多</b>：全週期向上共振，能量爆發。<br>
+                        2. <b>強多</b>：正弦相位 (1, 3, B) 主導，回測買點。<br>
+                        3. <b>多空關鍵</b>：臨界點，觀察小齒輪引動。<br>
+                        4. <b>空誘多</b>：B段反彈，屬於餘弦修正，準備放空。<br>
+                        5. <b>空頭</b>：餘弦相位 (2, A, C) 主導，重力加速。
+                    </div>
+                    <div class="legend-sec">
+                        <span class="legend-title">🚪 門控機理說明</span>
+                        🔓 <b>開門發動</b>：價格站上 W 門或跌破 M 門，空間開啟。<br>
+                        🔄 <b>測門買點</b>：標籤 2 回測不破門，是牛轉門最精確買點。<br>
+                        ⚠️ <b>B反彈找空點</b>：B 段反彈受阻於門，是誘多找空機會。<br>
+                        🔒 <b>關門撤退</b>：價格縮回門內，代表波動結束，應立即離場。
+                    </div>
+                    <div class="legend-sec">
+                        <span class="legend-title">🏷️ 標籤屬性 (紅漲綠跌)</span>
+                        1, 3, B：正弦相位。代表向上發散、回升或反彈能量。<br>
+                        2, A, C：餘弦相位。代表向下修正、初跌或主跌重力。<br>
+                        <b>收盤確認：所有判斷必須以該時框收盤價為準。</b>
+                    </div>
+                    <div class="legend-sec">
+                        <span class="legend-title">📈 導航層級定位</span>
+                        <b>月/週/日</b>：宏觀重力，定義時代之門。<br>
+                        <b>4H/60m</b>：波段標竿，判定當日強弱。<br>
+                        <b>15m/5m/1m</b>：進場板機，捕捉引動瞬間。
+                    </div>
                 </div>
             </div>
         </div>
@@ -233,19 +270,6 @@
             <div id="emptyHint" style="text-align:center; padding:60px; color:#999; font-size:0.9rem;">
                 尚未產出報告。請先點擊「產出分析卡片」。
             </div>
-        </div>
-    </div>
-
-    <div class="footer-notes">
-        <div class="note-card">
-            <h3>⚡ 能量等級說明</h3>
-            <ul>
-                <li><b class="red-text">1. 極多</b>：能量爆發，開門動力。</li>
-                <li><b class="red-text">2. 強多</b>：正弦相位，起漲發動趨勢。</li>
-                <li><b class="blue-text">3. 多空關鍵</b>：臨界點，觀察小齒輪。</li>
-                <li><b class="green-text">4. 空誘多</b>：B 段反彈，餘弦波修正。</li>
-                <li><b class="green-text">5. 空頭</b>：餘弦相位，重力下殺。</li>
-            </ul>
         </div>
     </div>
 
@@ -336,7 +360,6 @@
             gateStatus: document.getElementById(`gateStatus_${tf.id}`).value
         }));
 
-        // 多空總結
         let currentVector = 0;
         matrix.forEach(m => {
             let v = [0, 2, 4].includes(labelMap[m.wave]) ? 1 : -1;
@@ -370,15 +393,28 @@
                 rowTags.push(curIdx);
                 if ([0, 2, 4].includes(curIdx)) totalPower += m.weight;
             });
+
+            // 實戰解析邏輯
+            let analysis = "";
+            const currentRefTag = rowTags[refIdx];
+            const refTf = matrix[refIdx];
+
+            if (totalPower >= 85) analysis = "🔥 <b>極強發動</b>：開門力如7字訣向上加總，123 動能開始。";
+            else if (totalPower <= 15) analysis = "📉 <b>重力主導</b>：關門力如7字訣向下整體，啟動 ABC 下殺。";
+            else if (currentRefTag === 1) analysis = `🔄 <b>測門買點</b>：${refTf.name}級標籤 2 回測中軌，收盤不破即買。`;
+            else if (currentRefTag === 4) analysis = `⚠️ <b>B點截擊</b>：${refTf.name}級反彈受壓於門，準備找點放空。`;
+            else if (rowTags[7] === 0 || rowTags[7] === 2) analysis = "⚙️ <b>微觀引動</b>：1m 小齒輪啟動，試圖帶動更高層級 123。";
+            else if (rowTags[7] === 3 || rowTags[7] === 5) analysis = "⚠️ <b>微觀關門</b>：1m 小齒輪失效，小心帶動更高層級 ABC。";
+            else analysis = `➡ ${refTf.name}級別穩定演進，持續監控門控物理邊界。`;
+
             const tr = document.createElement('tr');
             let html = `<td><b>Step ${s}</b></td>`;
             rowTags.forEach(v => { html += `<td><span class="tag-cell ${[0, 2, 4].includes(v) ? 'tag-up' : 'tag-down'}">${labels[v]}</span></td>`; });
             let pLevel = getPowerLevel(totalPower);
-            let gStatus = getGateStatus(rowTags[refIdx]);
-            html += `<td><span class="gate-status-tag ${gStatus.cls}">${gStatus.txt}</span><span class="level-badge p-${pLevel.id}">${pLevel.name}</span><div style="font-size:9px;color:#777">能量: ${totalPower}%</div></td><td class="analysis-col">推演中...</td>`;
+            let gStatus = getGateStatus(currentRefTag);
+            html += `<td><span class="gate-status-tag ${gStatus.cls}">${gStatus.txt}</span><span class="level-badge p-${pLevel.id}">${pLevel.name}</span><div style="font-size:9px;color:#777">共振: ${totalPower}%</div></td><td class="analysis-col">${analysis}</td>`;
             tr.innerHTML = html; tbody.appendChild(tr);
         }
-        switchTab('table');
     }
 
     function updateExtremeAlert(matrix) {
@@ -388,13 +424,13 @@
         if (isAll3) {
             panel.style.display = 'block'; panel.style.borderColor = '#f00';
             document.getElementById('alertTitle').innerHTML = `<span class="red-text">⚠️ 極陽反轉警告：33333 結構</span>`;
-            document.getElementById('alertBody').innerHTML = `大週期極盛。關門力即將如同 7字訣向下爆發。`;
+            document.getElementById('alertBody').innerHTML = `大週期極盛。關門力即將爆發。`;
             let closedCount = 0; [5,6,7].forEach(i => { if (matrix[i].gateStatus === 'CLOSED') closedCount++; });
             document.getElementById('alertCounter').innerHTML = `微觀門關閉數：${closedCount}`;
         } else if (isAllC) {
             panel.style.display = 'block'; panel.style.borderColor = '#388e3c';
             document.getElementById('alertTitle').innerHTML = `<span class="green-text">🚀 極陰轉多提示：CCCCC 結構</span>`;
-            document.getElementById('alertBody').innerHTML = `尋找微觀開門帶動 123 結構。`;
+            document.getElementById('alertBody').innerHTML = `尋找 15M 以下開門帶動 123 的瞬間。`;
             let openCount = 0; [5,6,7].forEach(i => { if (matrix[i].gateStatus === 'OPEN') openCount++; });
             document.getElementById('alertCounter').innerHTML = `微觀門開啟數：${openCount}`;
         } else panel.style.display = 'none';
@@ -415,11 +451,9 @@
             mantra: document.getElementById(`mantra_${tf.id}`).value
         }));
 
-        // 整理分組防禦聯動
         const macroInfo = [0, 1, 2].map(i => getGateStatusHtml(matrix[i])).join('<br>');
         const trendInfo = [4, 5, 6].map(i => getGateStatusHtml(matrix[i])).join('<br>');
 
-        // 歸納全級別狀態摘要
         let summaryList = "";
         timeframes.forEach(tf => {
             const wave = document.getElementById(`wave_${tf.id}`).value;
@@ -439,23 +473,47 @@
             <div class="info-block"><span class="info-title">觀察級別基準:</span><b class="blue-text">${refName}</b></div>
             <div class="info-block"><span class="info-title">多空趨勢總結:</span>${trend}</div>
             <div class="info-block"><span class="info-title">波動牽連預言:</span>${scenario}</div>
-            
             <div class="linkage-box">
                 <div style="font-weight:900; margin-bottom:8px; color:#444; border-bottom:1px solid #ddd;">🛡️ 雙類別防禦聯動現況:</div>
                 <div style="margin-bottom:10px;"><b>1. 宏觀位階 (月/週/日):</b><br>${macroInfo}</div>
                 <div><b>2. 趨勢扳機 (60M/15M/5M):</b><br>${trendInfo}</div>
             </div>
-
             <div class="summary-box">
                 <div style="font-weight:900; margin-bottom:10px; font-size:0.8rem; border-bottom:1px solid #eee; padding-bottom:5px;">📈 歸納全級別狀態:</div>
                 ${summaryList}
             </div>
-
-            <div class="report-footer-disclaimer">
-                程式撰寫：六甲豆子<br>
-                ⚠️ 注意：個人交易心得整理，不構成投資建議；牛軍開門教學請自行到 <a href="https://www.skool.com/niujun-open-the-door/about?ref=35d3add8e5c64bb58850c92c283d1ba4" target="_blank">SKOOL 技術原創者</a> 學習
+            <div class="master-legend">
+                <div class="legend-sec">
+                    <span class="legend-title">⚡ 能量等級說明</span>
+                    1. 極多：全週期向上共振，能量爆發。<br>
+                    2. 強多：正弦相位 (1, 3, B) 主導，回測買點。<br>
+                    3. 多空關鍵：臨界點，觀察小齒輪引動。<br>
+                    4. 空誘多：B段反彈，屬於餘弦修正，準備放空。<br>
+                    5. 空頭：餘弦相位 (2, A, C) 主導，重力加速。
+                </div>
+                <div class="legend-sec">
+                    <span class="legend-title">🚪 門控機理說明</span>
+                    🔓 開門發動：價格站上 W 門或跌破 M 門，空間開啟。<br>
+                    🔄 測門買點：標籤 2 回測不破門，是牛轉門最精確買點。<br>
+                    ⚠️ B反彈找空點：B 段反彈受阻於門，是誘多找空機會。<br>
+                    🔒 關門撤退：價格縮回門內，代表波動結束，應立即離場。
+                </div>
+                <div class="legend-sec">
+                    <span class="legend-title">🏷️ 標籤屬性 (紅漲綠跌)</span>
+                    1, 3, B：正弦相位。代表向上發散、回升或反彈能量。<br>
+                    2, A, C：餘弦相位。代表向下修正、初跌或主跌重力。<br>
+                    <b>收盤確認：所有判斷必須以該時框收盤價為準。</b>
+                </div>
+                <div class="legend-sec">
+                    <span class="legend-title">📈 導航層級定位</span>
+                    月/週/日：宏觀重力，定義時代之門。<br>
+                    4H/60m：波段標竿，判定當日強弱。<br>
+                    15m/5m/1m：進場板機，捕捉引動瞬間。
+                </div>
             </div>
-
+            <div class="report-footer-disclaimer">
+                程式撰寫：六甲豆子 | 教學請至 <a href="https://www.skool.com/niujun-open-the-door/about?ref=35d3add8e5c64bb58850c92c283d1ba4" target="_blank">SKOOL 技術原創者</a> 學習
+            </div>
             <div class="report-actions">
                 <button class="btn btn-outline" style="padding:6px 12px; font-size:11px;" onclick="window.print()">🖨️ 列印分析報告 / 另存PDF</button>
             </div>
