@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1565c0">
-    <title>牛轉門：時空導航儀</title>
+    <title>牛轉門：時空導航儀 (終極完全美化版)</title>
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuWIm+i9iee6gOaZgum6uuiwsOatueitpOakrCIsCiAgInNob3J0X25hbWUiIjogIuWIm+i9iee6gCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZjRmN2Y5IiwKICAidGhlbWVfY29sb3IiOiAiIzFhNzNlOCIKfQ==">
@@ -115,7 +115,7 @@
         .green-text { color: var(--down-green) !important; font-weight: 800; }
         .blue-text { color: var(--primary) !important; font-weight: 800; }
 
-        .report-footer-disclaimer { margin-top: 20px; padding: 20px; border-top: 2px solid #f1f3f4; font-size: 0.9rem; line-height: 1.8; color: #64748b; }
+        .report-footer-disclaimer { margin-top: 20px; padding: 20px; border-top: 2px solid #f1f3f4; font-size: 0.95rem; line-height: 1.8; color: #64748b; }
         .close-btn { position: absolute; top: clamp(10px, 3vw, 25px); right: clamp(10px, 3vw, 25px); font-size: 35px; color: #cbd5e0; cursor: pointer; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -126,7 +126,7 @@
             header, .core-concept-v4, .dashboard, .config-panel, .actions, .tab-buttons, .app-attribution, .footer-notes { display: none !important; }
             .tab-content { display: none !important; }
             #contentReport { display: block !important; }
-            .report-card { border: 6px solid #000; padding: 30px; break-inside: avoid; border-top: 40px solid #000; box-shadow: none; }
+            .report-card { border: 6px solid #000; padding: 40px; break-inside: avoid; border-top: 40px solid #000; box-shadow: none; }
         }
     </style>
 </head>
@@ -147,7 +147,7 @@
                 <div class="desc">
                     - <span class="red-text">向上趨勢</span>：1 <span class="red-text">起漲</span> → 2 回測 → 3 <span class="red-text">發動</span> <br>
                     - <span class="green-text">向下趨勢</span>：A <span class="green-text">起跌</span> → B 反彈 → C <span class="green-text">主跌</span> <br>
-                    - 波動不是<span class="red-text">向上</span>就是<span class="green-text">向下</span>；辨識相位與慣性延續。
+                    - 波動不是<span class="red-text">向上</span>就是<span class="green-text">向下</span>；目標是辨識相位與慣性延續。
                 </div>
             </div>
         </div>
@@ -166,8 +166,11 @@
             <div class="text-wrap">
                 <span class="title">定門控（W / M）</span>
                 <div class="desc">
-                    - 門是物理邊界：<span class="red-text">開門</span>＝新空間打開；<span class="green-text">關門</span>＝原趨勢空間關閉。 <br>
-                    - <b>規則</b>：站上 <b>W 門</b> → 看多；跌破 <b>M 門</b> → 看空。<span class="red-text">門上不做空</span>、<span class="green-text">門下不做多</span>。
+                    - 門是價格的物理邊界：<span class="red-text">開門</span>＝新空間被打開；<span class="green-text">關門</span>＝原趨勢空間被關閉。 <br>
+                    - <b>規則</b>：<br>
+                    &nbsp;&nbsp;• 收盤價站上 <b>W 門</b> → 看多（啟動 123）<br>
+                    &nbsp;&nbsp;• 收盤價跌破 <b>M 門</b> → 看空（啟動 ABC）<br>
+                    &nbsp;&nbsp;• <span class="red-text">門上不做空</span>、<span class="green-text">門下不做多</span>；一切以「該時框收盤」確認有效。
                 </div>
             </div>
         </div>
@@ -270,7 +273,7 @@
     const labelMap = {'1':0, '2':1, '3':2, 'A':3, 'B':4, 'C':5};
 
     function getPowerLevel(p) {
-        if (p >= 85) return {id:1, name:"1. 極多 (發散)"};
+        if (p >= 85) return {id:1, name:"1. 極多 (發軟)"};
         if (p >= 70) return {id:2, name:"2. 強多 (趨勢)"};
         if (p >= 50) return {id:3, name:"3. 多空關鍵"};
         return {id:5, name:"5. 空頭 (塌陷)"};
@@ -297,6 +300,7 @@
         return `➡ <b class="${col}">${tfName}級性質演進：</b>監控門控邊界，收盤確認性質。`;
     }
 
+    // --- 空間物理結論 ---
     function getRangeConclusion(m) {
         const w = m.wGate; const m_ = m.mGate;
         if (w === 'OPEN' && m_ === 'OPEN') return "<span class='red-text'>突破門界向上 🚀</span>";
@@ -317,7 +321,7 @@
 
         const scripts = {
             '1': `🚀 <b class='red-text'>起漲性質 (1轉2/3)</b>：macd波段從 <span class='red-text'>1</span> 走向 <span class='${colorClass}'>${finalLabel}</span>，觀察(之上,自己,之下)關鍵門及動態。結論：${conclusion}`,
-            '2': `⚖️ <b class='blue-text'>轉化臨界 (2轉3/A)</b>：回測位階。macd波段從 <span class='green-text'>2</span> 走向 <span class='${colorClass}'>${finalLabel}</span>，觀察關鍵門動態。結論：${conclusion}`,
+            '2': `⚖️ <b class='blue-text'>轉化臨界 (2轉3/A/C)</b>：回測位階。macd波段從 <span class='green-text'>2</span> 走向 <span class='${colorClass}'>${finalLabel}</span>，觀察關鍵門動態。若走向 C 代表已完成 3-A-B 的能量消耗。結論：${conclusion}`,
             '3': `🔥 <b class='red-text'>發動性質 (3轉2/A)</b>：發動位階。macd波段從 <span class='red-text'>3</span> 走向 <span class='${colorClass}'>${finalLabel}</span>，觀察關鍵門動態。結論：${conclusion}`,
             'A': `📉 <b class='green-text'>起跌性質 (A轉B)</b>：起跌位階。macd波段從 <span class='green-text'>A</span> 走向 <span class='${colorClass}'>${finalLabel}</span>，觀察關鍵門動態。結論：${conclusion}`,
             'B': `⚖️ <b class='blue-text'>轉化臨界 (B轉1/C)</b>：反彈位階。macd波段從 <span class='red-text'>B</span> 走向 <span class='${colorClass}'>${finalLabel}</span>，觀察關鍵門動態. 結論：${conclusion}`,
